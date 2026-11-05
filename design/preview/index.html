@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Morrow Foundations</title>
+<link rel="stylesheet" href="../index.css">
+<link rel="stylesheet" href="./preview.css">
+</head>
+<body>
+<div class="pv-page">
+<div class="container container--xl" style="padding-inline:0">
+  <header class="pv-top">
+    <div class="stack" style="--gap: var(--space-2)">
+      <span class="pv-eyebrow">Morrow design system</span>
+      <h1>Foundations</h1>
+      <p class="pv-lede">The tokens and layouts behind Morrow, a personal hub for solo developers. Primitives hold raw values; semantic tokens name roles and change with the theme.</p>
+    </div>
+    <div class="cluster">
+      <a class="pv-btn pv-btn--accent" href="app.html" style="text-decoration:none">Open the app prototype</a>
+      <button class="pv-btn" id="theme-toggle" type="button">Theme: system</button>
+    </div>
+  </header>
+</div>
+</div>
+
+<nav class="pv-nav pv-page" aria-label="Sections">
+  <div class="container container--xl cluster" style="padding-inline:0; flex-wrap:nowrap; --gap: var(--space-1)">
+    <a href="#color">Color</a><a href="#type">Type</a><a href="#space">Spacing</a><a href="#radius">Radius</a><a href="#shadow">Elevation</a><a href="#motion">Motion</a><a href="#breakpoints">Breakpoints</a><a href="#primitives">Layout primitives</a><a href="#containers">Containers</a><a href="#shells">Page shells</a>
+  </div>
+</nav>
+
+<main class="pv-page">
+<div class="container container--xl stack" style="padding-inline:0; --gap: var(--section-space); padding-block: var(--space-12) var(--space-24)">
+
+  <section id="color" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Color</h2>
+      <p class="pv-note">Warm gray neutrals (hue 75) carry 90 to 95% of every screen. One calm blue accent (hue 255) marks the primary action, links, selection and focus. All values are OKLCH so steps are even. Components use the semantic roles below, never the ramps.</p>
+    </div>
+    <div class="stack" id="ramps" style="--gap: var(--space-4)"></div>
+    <h3 style="font-size: var(--text-lg)">Semantic roles</h3>
+    <div class="grid-auto" id="roles" style="--min: 15rem; --gap: var(--space-3)"></div>
+    <h3 style="font-size: var(--text-lg)">Status</h3>
+    <div class="grid-auto" style="--min: 13rem; --gap: var(--space-3)">
+      <div class="pv-status" style="background:var(--color-success-bg);border-color:var(--color-success-border);color:var(--color-success-text)">Synced 2 minutes ago</div>
+      <div class="pv-status" style="background:var(--color-warning-bg);border-color:var(--color-warning-border);color:var(--color-warning-text)">Due tomorrow</div>
+      <div class="pv-status" style="background:var(--color-danger-bg);border-color:var(--color-danger-border);color:var(--color-danger-text)">Couldn't save changes</div>
+      <div class="pv-status" style="background:var(--color-info-bg);border-color:var(--color-info-border);color:var(--color-info-text)">New version available</div>
+    </div>
+    <div class="cluster">
+      <button class="pv-btn pv-btn--accent" type="button">Primary action</button>
+      <button class="pv-btn" type="button">Secondary</button>
+      <button class="pv-btn pv-btn--soft" type="button">Soft accent</button>
+      <a href="#color">Text link</a>
+    </div>
+  </section>
+
+  <section id="type" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Typography</h2>
+      <p class="pv-note">1.2 ratio from a 16px base. Sizes from xl up are fluid between 360px and 1280px viewports. Nothing is smaller than 13px, and labels are sentence case at 13px medium, never tracked capitals. System font stacks for now; a brand face can replace <code>--font-heading</code> and <code>--font-body</code> later.</p>
+    </div>
+    <div id="type-rows"></div>
+    <div class="grid-auto" style="--min: 14rem">
+      <div class="stack" style="--gap: var(--space-1)"><span class="pv-eyebrow">Leading</span><span class="pv-code">none 1 · tight 1.15 · snug 1.3 · normal 1.5 · relaxed 1.65</span></div>
+      <div class="stack" style="--gap: var(--space-1)"><span class="pv-eyebrow">Weights</span><span><span style="font-weight:400">400</span> · <span style="font-weight:500">500</span> · <span style="font-weight:600">600</span> · <span style="font-weight:700">700</span></span></div>
+      <div class="stack" style="--gap: var(--space-1)"><span class="pv-eyebrow">Measure</span><span class="pv-code">narrow 45ch · default 65ch · wide 80ch</span></div>
+    </div>
+  </section>
+
+  <section id="space" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Spacing</h2>
+      <p class="pv-note">A 4px base. The step name is the number of 4px units, so <code>--space-6</code> is 24px. Layout also has fluid tokens: <code>--gutter</code> (16 to 40px) and <code>--section-space</code> (48 to 96px).</p>
+    </div>
+    <div class="stack" id="space-rows" style="--gap: var(--space-2)"></div>
+  </section>
+
+  <section id="radius" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Radius</h2>
+      <p class="pv-note">One soft family: 8px for controls and kanban cards, 12px for panels and board columns, 20px for dialogs. No other values.</p>
+    </div>
+    <div class="grid-auto" id="radius-tiles" style="--min: 7rem; --gap: var(--space-3)"></div>
+  </section>
+
+  <section id="shadow" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Elevation</h2>
+      <p class="pv-note">Two-layer shadows tinted toward the warm neutral. In dark mode shadows fade and lighter surfaces carry elevation instead.</p>
+    </div>
+    <div class="grid-auto" id="shadow-tiles" style="--min: 9rem; --gap: var(--space-6)"></div>
+  </section>
+
+  <section id="motion" class="stack" style="--gap: var(--space-6)">
+    <div class="spread">
+      <div class="stack" style="--gap: var(--space-2)">
+        <h2 class="pv-h2">Motion</h2>
+        <p class="pv-note">Quiet and quick, and only in answer to the person: hover in at 140ms, out at 200ms, press at 90ms. One easing for UI steps, no bounce or overshoot. Cards lift 2px on hover, buttons step up 1px and press down 1px. Reduced-motion users get instant changes.</p>
+      </div>
+      <button class="pv-btn pv-btn--accent" id="play-motion" type="button">Play</button>
+    </div>
+    <div class="stack" id="motion-rows" style="--gap: var(--space-3)"></div>
+  </section>
+
+  <section id="breakpoints" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Breakpoints</h2>
+      <p class="pv-note">Mobile first, min-width only. Reach for intrinsic layouts and container queries before viewport breakpoints. Your current viewport is highlighted.</p>
+    </div>
+    <div id="bp-rows"></div>
+  </section>
+
+  <section id="primitives" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Layout primitives</h2>
+      <p class="pv-note">Each primitive does one arrangement job and responds to its own width. Tune them with custom properties such as <code>--gap</code> or <code>--min</code> instead of modifier classes. Resize the window to see them adapt.</p>
+    </div>
+    <div class="grid-auto" style="--min: 20rem; --gap: var(--space-6)">
+      <div class="stack" style="--gap: var(--space-2)"><strong>.stack</strong><span class="pv-note">Vertical flow with one gap.</span>
+        <div class="pv-demo stack" style="--gap: var(--space-2)"><div class="pv-box">Heading</div><div class="pv-box">Paragraph</div><div class="pv-box">Actions</div></div></div>
+      <div class="stack" style="--gap: var(--space-2)"><strong>.cluster</strong><span class="pv-note">Inline group that wraps: tags, toolbars.</span>
+        <div class="pv-demo cluster"><div class="pv-box">Today</div><div class="pv-box">This week</div><div class="pv-box">Later</div><div class="pv-box">Someday</div><div class="pv-box">Done</div></div></div>
+      <div class="stack" style="--gap: var(--space-2)"><strong>.spread</strong><span class="pv-note">Title on one end, actions on the other.</span>
+        <div class="pv-demo spread"><div class="pv-box">Thursday, Nov 5</div><div class="cluster"><div class="pv-box pv-box--neutral">Filter</div><div class="pv-box">New</div></div></div></div>
+      <div class="stack" style="--gap: var(--space-2)"><strong>.grid-auto</strong><span class="pv-note">As many columns as fit at <code>--min</code> wide.</span>
+        <div class="pv-demo grid-auto" style="--min: 5rem; --gap: var(--space-2)"><div class="pv-box">1</div><div class="pv-box">2</div><div class="pv-box">3</div><div class="pv-box">4</div><div class="pv-box">5</div></div></div>
+      <div class="stack" style="--gap: var(--space-2)"><strong>.sidebar-layout</strong><span class="pv-note">Side panel plus main; stacks when main gets too narrow.</span>
+        <div class="pv-demo sidebar-layout" style="--side-width: 6rem; --gap: var(--space-2)"><div class="sidebar-layout__side pv-box pv-box--neutral">side</div><div class="sidebar-layout__main pv-box" style="min-block-size:4.5rem">main</div></div></div>
+      <div class="stack" style="--gap: var(--space-2)"><strong>.switcher</strong><span class="pv-note">A row that stacks all at once below <code>--threshold</code>.</span>
+        <div class="pv-demo switcher" style="--threshold: 22rem; --gap: var(--space-2)"><div class="pv-box">Free</div><div class="pv-box">Plus</div><div class="pv-box">Team</div></div></div>
+    </div>
+    <div class="grid-auto" style="--min: 20rem; --gap: var(--space-6)">
+      <div class="stack" style="--gap: var(--space-2)"><strong>.grid-12</strong><span class="pv-note">Twelve columns for designed layouts. Children are full width on phones; <code>.span-*</code> applies from md (768px).</span>
+        <div class="pv-demo grid-12" style="--gap: var(--space-2)"><div class="pv-box span-8">span-8</div><div class="pv-box span-4">span-4</div><div class="pv-box span-4">span-4</div><div class="pv-box span-4">span-4</div><div class="pv-box span-4">span-4</div></div></div>
+      <div class="stack" style="--gap: var(--space-2)"><strong>Also included</strong>
+        <ul class="stack pv-note" style="--gap: var(--space-1); padding-inline-start: var(--space-5)">
+          <li><code>.center</code> centers content at a max width (default 65ch).</li>
+          <li><code>.cover</code> vertically centers one element in a min height: heroes, empty states.</li>
+          <li><code>.frame</code> keeps media at an aspect ratio (default 16/9).</li>
+          <li><code>.prose</code> sets measure and rhythm for long-form text.</li>
+          <li><code>.board</code>, <code>.editor</code> and <code>.list-view</code> are the app views; see Page shells and the prototype.</li>
+          <li><code>.cq</code> makes a wrapper a container-query scope.</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <section id="containers" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Containers</h2>
+      <p class="pv-note"><code>.container</code> caps content width and adds the fluid page gutter. Default is lg. <code>.section</code> adds vertical rhythm between page bands, and <code>.breakout</code> lets media bleed edge to edge inside a container.</p>
+    </div>
+    <div class="stack" id="container-rows" style="--gap: var(--space-2)"></div>
+  </section>
+
+  <section id="shells" class="stack" style="--gap: var(--space-6)">
+    <div class="stack" style="--gap: var(--space-2)">
+      <h2 class="pv-h2">Page shells</h2>
+      <p class="pv-note">Shells frame a whole page; app views fill the app shell's main area. The <a href="app.html">prototype</a> shows the app shell, board, editor and todo list working together.</p>
+    </div>
+    <div class="grid-auto" style="--min: 15rem; --gap: var(--space-6)">
+      <figure class="pv-shell">
+        <div class="pv-wire" style="grid-template: 'side head' 18px 'side main' 1fr / 30% 1fr"><div class="w-dark" style="grid-area:side"></div><div style="grid-area:head"></div><div class="w-acc" style="grid-area:main"></div></div>
+        <figcaption class="pv-shell-cap"><strong>.shell-app</strong><span>Every signed-in screen. Sidebar with the Personal / Work switcher and that space's sections; docked from lg (1024px), a drawer below.</span></figcaption>
+      </figure>
+      <figure class="pv-shell">
+        <div class="pv-wire" style="place-items:center; grid-template: 1fr / 1fr"><div class="w-acc" style="inline-size:45%; block-size:65%; background: var(--color-surface); box-shadow: var(--shadow-md)"></div></div>
+        <figcaption class="pv-shell-cap"><strong>.shell-focus</strong><span>One task, no navigation: sign in, onboarding, checkout. Narrow centered column.</span></figcaption>
+      </figure>
+      <figure class="pv-shell">
+        <div class="pv-wire" style="grid-template-columns: repeat(3, 1fr) 0.6fr; align-items:start"><div style="block-size:85%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:22px"></div><div class="w-acc" style="block-size:30px"></div><div class="w-acc" style="block-size:18px"></div></div><div style="block-size:65%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:30px"></div><div class="w-acc" style="block-size:22px"></div></div><div style="block-size:45%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:26px"></div></div><div style="block-size:20%; background:transparent; border:1px dashed var(--color-border-strong)"></div></div>
+        <figcaption class="pv-shell-cap"><strong>.board</strong><span>A section's kanban. Any number of columns scroll sideways inside the board; each column scrolls its own cards.</span></figcaption>
+      </figure>
+      <figure class="pv-shell">
+        <div class="pv-wire" style="grid-template-columns: 1fr 12px 52% 12px 1fr; align-content:start; row-gap:5px; padding-block:14px"><div style="grid-column:3; block-size:16px" class="w-dark"></div><div style="grid-column:2; block-size:8px; align-self:center" class="w-acc"></div><div style="grid-column:3; block-size:8px"></div><div style="grid-column:3; block-size:8px"></div><div style="grid-column:3; block-size:8px; inline-size:70%"></div><div style="grid-column:2/5; block-size:36px" class="w-acc"></div><div style="grid-column:3; block-size:8px"></div></div>
+        <figcaption class="pv-shell-cap"><strong>.editor</strong><span>Block-editor note page. A 720px text column, a left gutter for drag handles, and wide blocks for tables and embeds.</span></figcaption>
+      </figure>
+      <figure class="pv-shell">
+        <div class="pv-wire" style="grid-template-columns: 1fr 60% 1fr; align-content:start; row-gap:4px; padding-block:14px"><div style="grid-column:2; block-size:8px; inline-size:30%" class="w-dark"></div><div style="grid-column:2; block-size:14px"></div><div style="grid-column:2; block-size:14px"></div><div style="grid-column:2; block-size:14px"></div><div style="grid-column:2; block-size:8px; inline-size:30%; margin-block-start:8px" class="w-dark"></div><div style="grid-column:2; block-size:14px"></div><div style="grid-column:2; block-size:14px"></div></div>
+        <figcaption class="pv-shell-cap"><strong>.list-view</strong><span>Personal todos and any task list opened full page. One readable column of grouped rows.</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+</div>
+</main>
+<script src="./preview.js"></script>
+</body>
+</html>
