@@ -10,45 +10,71 @@
 
 :root {
   /* ------------------------------------------------------------------ */
-  /* Color: neutral (warm gray, hue 75)                                  */
-  /* OKLCH so lightness steps are perceptually even.                     */
+  /* Color: neutrals                                                      */
+  /* OKLCH so lightness steps are perceptually even. Two ramps, from the  */
+  /* Day / Dusk layout concept: warm sand paper for light surfaces, and a */
+  /* green-gray for ink, muted text and the dark (Dusk) surfaces.          */
   /* ------------------------------------------------------------------ */
-  --gray-0: oklch(100% 0 0);
-  --gray-25: oklch(98.8% 0.003 75);
-  --gray-50: oklch(97.6% 0.004 75);
-  --gray-100: oklch(95.2% 0.005 75);
-  --gray-200: oklch(91% 0.006 75);
-  --gray-300: oklch(85% 0.007 75);
-  --gray-400: oklch(71% 0.008 75);
-  --gray-500: oklch(56% 0.009 75);
-  --gray-600: oklch(48% 0.009 75);
-  --gray-700: oklch(38% 0.008 75);
-  --gray-800: oklch(28% 0.007 75);
-  --gray-850: oklch(23% 0.006 75);
-  --gray-900: oklch(19% 0.005 75);
-  --gray-950: oklch(15% 0.004 75);
-  --gray-1000: oklch(0% 0 0);
+  --white: oklch(100% 0 0);
+  --black: oklch(0% 0 0);
+
+  /* Sand (hue ~88): Day surfaces and borders */
+  --sand-25: oklch(98.5% 0.004 91); /* #FBFAF7 card, header */
+  --sand-50: oklch(95.8% 0.007 89); /* #F3F1EC page */
+  --sand-100: oklch(92.8% 0.01 87); /* #EAE7E0 board column, toggle track */
+  --sand-200: oklch(89.2% 0.013 87); /* #DFDBD2 line */
+  --sand-300: oklch(83.5% 0.014 87); /* field border */
+
+  /* Gray (green-gray, hue ~155-180): ink, muted text, Dusk surfaces */
+  --gray-50: oklch(96.5% 0.004 140);
+  --gray-100: oklch(92.7% 0.007 132); /* #E5E8E3 Dusk ink */
+  --gray-200: oklch(85% 0.01 150);
+  --gray-300: oklch(78% 0.012 152);
+  --gray-400: oklch(72.3% 0.012 154); /* #A0A8A2 Dusk muted */
+  --gray-500: oklch(61% 0.012 155);
+  --gray-600: oklch(50.3% 0.012 155); /* #5F6661 Day muted */
+  --gray-700: oklch(40% 0.011 160);
+  --gray-800: oklch(33.3% 0.011 168); /* #313835 Dusk line */
+  --gray-850: oklch(30.3% 0.009 160); /* #2B302D Day ink */
+  --gray-875: oklch(29% 0.01 164); /* #272D2A Dusk column, toggle track */
+  --gray-900: oklch(25% 0.008 170); /* #1E2321 Dusk card, header */
+  --gray-950: oklch(21.3% 0.006 179); /* #161A19 Dusk page */
 
   /* ------------------------------------------------------------------ */
-  /* Color: accent (calm blue, hue 255)                                  */
-  /* Kept out of the violet band (hue 270-330) on purpose.               */
+  /* Color: accent (sage, hue ~155)                                       */
+  /* Muted on purpose: chroma stays under 0.05. Out of the violet band.   */
   /* ------------------------------------------------------------------ */
-  --blue-50: oklch(97% 0.014 255);
-  --blue-100: oklch(93.5% 0.03 255);
-  --blue-200: oklch(87% 0.06 255);
-  --blue-300: oklch(78% 0.1 255);
-  --blue-400: oklch(68% 0.135 255);
-  --blue-500: oklch(58% 0.155 255);
-  --blue-600: oklch(51% 0.15 255);
-  --blue-700: oklch(44% 0.13 255);
-  --blue-800: oklch(37% 0.1 255);
-  --blue-900: oklch(30% 0.07 255);
-  --blue-950: oklch(23% 0.045 255);
+  --sage-50: oklch(96.5% 0.01 150);
+  --sage-100: oklch(91.3% 0.014 149); /* #DCE5DD Day soft accent */
+  --sage-200: oklch(85% 0.026 152);
+  --sage-300: oklch(76.4% 0.044 155); /* #9DBBA6 Dusk accent */
+  --sage-400: oklch(66% 0.05 156);
+  --sage-500: oklch(58% 0.05 157);
+  --sage-600: oklch(51.1% 0.048 158); /* #4F6F5C Day accent */
+  --sage-700: oklch(44% 0.042 158);
+  --sage-800: oklch(37% 0.034 160);
+  --sage-900: oklch(32% 0.019 163); /* #2A3630 Dusk soft accent */
+  --sage-950: oklch(26% 0.015 165);
+
+  /* ------------------------------------------------------------------ */
+  /* Color: illustration (the Today hero's landscape)                     */
+  /* ------------------------------------------------------------------ */
+  --scene-day-sky: oklch(91% 0.009 169); /* #DCE3E0 */
+  --scene-day-sun: oklch(94.2% 0.026 85); /* #F4EBD9 */
+  --scene-day-hill-far: oklch(81.2% 0.021 160); /* #B7C6BD */
+  --scene-day-hill-near: oklch(70.3% 0.033 159); /* #8FA698 */
+  --scene-day-water: oklch(86.3% 0.014 179); /* #C9D5D2 */
+  --scene-dusk-sky: oklch(32.5% 0.023 254); /* #2C3540 */
+  --scene-dusk-sun: oklch(79.1% 0.046 84); /* #C9B99A */
+  --scene-dusk-hill-far: oklch(38.6% 0.017 191); /* #3A4746 */
+  --scene-dusk-hill-near: oklch(31.8% 0.015 190); /* #2A3534 */
+  --scene-dusk-water: oklch(36.9% 0.023 246); /* #36414B */
 
   /* ------------------------------------------------------------------ */
   /* Color: status                                                        */
   /* Only the steps the semantic layer needs: tint bg, border, solid, ink. */
-  /* Info reuses the accent ramp.                                         */
+  /* Info reuses the accent ramp. Success is a brighter, more saturated   */
+  /* green than sage so the two never read as the same thing.             */
   /* ------------------------------------------------------------------ */
   --green-100: oklch(94.5% 0.045 155);
   --green-300: oklch(82% 0.11 155);
@@ -71,10 +97,14 @@
   /* ------------------------------------------------------------------ */
   /* Typography                                                           */
   /* ------------------------------------------------------------------ */
+  /* Geist and Newsreader: the app self-hosts them (@fontsource-variable, loaded
+     in src/styles/app.css); the plain names catch a Google Fonts link. */
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    "Geist Variable", Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif:
+    "Newsreader Variable", Newsreader, ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino,
+    Georgia, serif;
   --font-mono:
     ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
@@ -124,13 +154,19 @@
   --space-1: 0.25rem; /* 4 */
   --space-1-5: 0.375rem; /* 6 */
   --space-2: 0.5rem; /* 8 */
+  --space-2-5: 0.625rem; /* 10 */
   --space-3: 0.75rem; /* 12 */
+  --space-3-5: 0.875rem; /* 14 */
   --space-4: 1rem; /* 16 */
+  --space-4-5: 1.125rem; /* 18 */
   --space-5: 1.25rem; /* 20 */
   --space-6: 1.5rem; /* 24 */
+  --space-7: 1.75rem; /* 28 */
   --space-8: 2rem; /* 32 */
+  --space-9: 2.25rem; /* 36 */
   --space-10: 2.5rem; /* 40 */
   --space-12: 3rem; /* 48 */
+  --space-14: 3.5rem; /* 56 */
   --space-16: 4rem; /* 64 */
   --space-20: 5rem; /* 80 */
   --space-24: 6rem; /* 96 */
@@ -151,11 +187,13 @@
   /* Radius                                                               */
   /* ------------------------------------------------------------------ */
   --radius-none: 0;
-  /* One family ("soft"): 8 / 12 / 20. Don't mix in other values. */
-  --radius-4: 0.25rem; /* 4: checkboxes, inline code */
-  --radius-8: 0.5rem; /* 8: buttons, inputs, kanban cards */
-  --radius-12: 0.75rem; /* 12: panels, popovers, board columns */
-  --radius-20: 1.25rem; /* 20: dialogs, sheets */
+  /* One family ("soft"), rounder as things get bigger: 6 / 10 / 12 / 16 / 20.
+     Don't mix in other values. */
+  --radius-6: 0.375rem; /* 6: checkboxes, inline code, favicons */
+  --radius-10: 0.625rem; /* 10: buttons, inputs, list rows, menus items */
+  --radius-12: 0.75rem; /* 12: kanban cards, popovers */
+  --radius-16: 1rem; /* 16: board columns, the hero caption */
+  --radius-20: 1.25rem; /* 20: page panels (hero, Today), dialogs, sheets */
   --radius-full: 9999px; /* pills, avatars */
 
   /* ------------------------------------------------------------------ */

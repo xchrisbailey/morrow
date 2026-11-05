@@ -53,15 +53,13 @@ export function Scratchpad() {
   const [initial] = useState(() => data.content);
 
   return (
-    <div className="editor">
-      <h1 className="editor__title">Scratchpad</h1>
-      <div onBlur={flush} className="min-h-64">
-        <ClientOnly fallback={<p className="text-muted-foreground">Loading editor…</p>}>
-          <Suspense fallback={<p className="text-muted-foreground">Loading editor…</p>}>
-            <ScratchpadEditor initialContent={initial} onChange={onChange} />
-          </Suspense>
-        </ClientOnly>
-      </div>
+    // The page places it and gives it a title; this is just the editor.
+    <div onBlur={flush} className="min-h-full">
+      <ClientOnly fallback={<p className="text-muted-foreground">Loading editor…</p>}>
+        <Suspense fallback={<p className="text-muted-foreground">Loading editor…</p>}>
+          <ScratchpadEditor initialContent={initial} onChange={onChange} />
+        </Suspense>
+      </ClientOnly>
     </div>
   );
 }

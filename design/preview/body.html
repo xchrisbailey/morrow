@@ -41,10 +41,11 @@
       <div class="stack" style="--gap: var(--space-2)">
         <h2 class="pv-h2">Color</h2>
         <p class="pv-note">
-          Warm gray neutrals (hue 75) carry 90 to 95% of every screen. One calm blue accent (hue
-          255) marks the primary action, links, selection and focus. All values are OKLCH so steps
-          are even. Components use the semantic roles below, never the ramps. Role names follow
-          shadcn's (ADR-0003): primary is the brand blue, accent is the hover and selected wash.
+          Two themes, Day and Dusk. Warm sand paper and green-gray ink carry 90 to 95% of every
+          screen. One muted sage accent (hue 155) marks the primary action, links, selection and
+          focus. All values are OKLCH so steps are even. Components use the semantic roles below,
+          never the ramps. Role names follow shadcn's (ADR-0003): primary is the sage accent, accent
+          is the hover and selected wash.
         </p>
       </div>
       <div class="stack" id="ramps" style="--gap: var(--space-4)"></div>
@@ -105,10 +106,11 @@
       <div class="stack" style="--gap: var(--space-2)">
         <h2 class="pv-h2">Typography</h2>
         <p class="pv-note">
-          1.2 ratio from a 16px base. Sizes from xl up are fluid between 360px and 1280px viewports.
+          Geist for everything you operate, Newsreader (<code>--font-display</code>) for the brand,
+          the greeting and page and section titles. 1.2 ratio from a 16px base; app UI sits at 14px
+          and long-form text at 16px. Sizes from xl up are fluid between 360px and 1280px viewports.
           Nothing is smaller than 13px, and labels are sentence case at 13px medium, never tracked
-          capitals. System font stacks for now; a brand face can replace
-          <code>--font-heading</code> and <code>--font-body</code> later.
+          capitals.
         </p>
       </div>
       <div id="type-rows"></div>
@@ -136,8 +138,9 @@
       <div class="stack" style="--gap: var(--space-2)">
         <h2 class="pv-h2">Spacing</h2>
         <p class="pv-note">
-          A 4px base. The step name is the number of 4px units, so <code>--space-6</code> is 24px.
-          Layout also has fluid tokens: <code>--gutter</code> (16 to 40px) and
+          A 4px base with 2px half steps for control and card interiors. The step name is the number
+          of 4px units, so <code>--space-6</code> is 24px and <code>--space-3-5</code> 14px. Layout
+          also has fluid tokens: <code>--gutter</code> (16 to 40px) and
           <code>--section-space</code> (48 to 96px).
         </p>
       </div>
@@ -148,9 +151,10 @@
       <div class="stack" style="--gap: var(--space-2)">
         <h2 class="pv-h2">Radius</h2>
         <p class="pv-note">
-          One soft family: 8px for controls and kanban cards, 12px for panels and board columns,
-          20px for dialogs. No other values. The primitives are <code>--radius-8/12/20</code>;
-          components use <code>rounded-control/card/panel/dialog</code>.
+          One soft family that gets rounder as things get bigger: 6px checkboxes, 10px controls,
+          12px kanban cards, 16px board columns, 20px page panels and dialogs. No other values. The
+          primitives are <code>--radius-6/10/12/16/20</code>; components use
+          <code>rounded-check/control/card/column/panel/dialog</code>.
         </p>
       </div>
       <div class="grid-auto" id="radius-tiles" style="--min: 7rem; --gap: var(--space-3)"></div>
@@ -323,17 +327,20 @@
         <figure class="pv-shell">
           <div
             class="pv-wire"
-            style="grid-template: &quot;side head&quot; 18px &quot;side main&quot; 1fr / 30% 1fr"
+            style="
+              grid-template: &quot;head head&quot; 18px &quot;hero today&quot; 40% &quot;board board&quot; 1fr / 2fr 1fr;
+            "
           >
-            <div class="w-dark" style="grid-area: side"></div>
-            <div style="grid-area: head"></div>
-            <div class="w-acc" style="grid-area: main"></div>
+            <div class="w-dark" style="grid-area: head"></div>
+            <div class="w-acc" style="grid-area: hero"></div>
+            <div style="grid-area: today"></div>
+            <div class="w-acc" style="grid-area: board; opacity: 0.6"></div>
           </div>
           <figcaption class="pv-shell-cap">
             <strong>.shell-app</strong
             ><span
-              >Every signed-in screen. Sidebar with the Personal / Work switcher and that space's
-              sections; docked from lg (1024px), a drawer below.</span
+              >Every signed-in screen. A top bar (brand, Personal / Work switch, actions) over one
+              centered column up to 1360px: the Today row, then the board.</span
             >
           </figcaption>
         </figure>
@@ -386,8 +393,8 @@
           <figcaption class="pv-shell-cap">
             <strong>.board</strong
             ><span
-              >A section's kanban. Any number of columns scroll sideways inside the board; each
-              column scrolls its own cards.</span
+              >A space's kanban. Any number of columns scroll sideways inside the board; columns
+              grow with their cards and the page scrolls.</span
             >
           </figcaption>
         </figure>
