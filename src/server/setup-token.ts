@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { hasOwner } from "#/features/auth/auth.server.ts";
 import type { Db } from "./db.ts";
+import { baseUrl } from "./env.ts";
 
 // On globalThis so the startup plugin and the app bundle see the same token.
 const KEY = Symbol.for("morrow.setupToken");
@@ -26,7 +27,7 @@ export function initSetupToken(
   }
   const token = env.MORROW_SETUP_TOKEN || randomBytes(18).toString("base64url");
   store[KEY] = token;
-  const url = (env.MORROW_URL || "http://localhost:3000").replace(/\/+$/, "");
+  const url = baseUrl(env);
   log(
     ["", "  No Owner yet. Create one at:", `    ${url}/setup`, `  Setup token: ${token}`, ""].join(
       "\n",

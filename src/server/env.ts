@@ -12,9 +12,20 @@ export function migrationsDir(env: NodeJS.ProcessEnv = process.env): string {
   return resolve(env.MIGRATIONS_DIR || "./drizzle");
 }
 
-/** The public URL. Required in production; defaults to the dev server. */
+/**
+ * The public URL. Required in production (fails fast if unset); outside
+ * production it defaults to the dev server.
+ */
 export function baseUrl(env: NodeJS.ProcessEnv = process.env): string {
-  const url = env.MORROW_URL || "http://localhost:3000";
+  let url = env.MORROW_URL;
+  if (!url) {
+    if (env.NODE_ENV === "production") {
+      throw new Error(
+        "MORROW_URL is required in production. Set it to the public URL of this Instance, e.g. MORROW_URL=https://morrow.example.com",
+      );
+    }
+    url = "http://localhost:3000";
+  }
   return url.replace(/\/+$/, "");
 }
 

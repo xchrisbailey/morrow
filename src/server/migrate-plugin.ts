@@ -1,8 +1,7 @@
 import { definePlugin } from "nitro";
 import { getDatabase } from "./db.ts";
 import { backupsDirFor, runMigrations } from "./migrate.ts";
-import { dataDir, migrationsDir } from "./env.ts";
-import { authSecret } from "./env.ts";
+import { authSecret, baseUrl, dataDir, migrationsDir } from "./env.ts";
 import { initSetupToken } from "./setup-token.ts";
 
 /**
@@ -11,6 +10,7 @@ import { initSetupToken } from "./setup-token.ts";
  * token when there is no Owner yet.
  */
 export default definePlugin(() => {
+  baseUrl(); // fail fast when MORROW_URL is missing in production
   const { sqlite, db } = getDatabase();
   runMigrations(sqlite, db, {
     migrationsFolder: migrationsDir(),
