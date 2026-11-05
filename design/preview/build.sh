@@ -11,7 +11,7 @@ page() { # $1 title, $2 extra css, $3 body, $4 js
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>$1</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="../index.css">
 <link rel="stylesheet" href="./$2">
 </head>
@@ -26,7 +26,7 @@ if [ -n "$1" ]; then
   mkdir -p "$1"
   inline() { # $1 title, $2 css, $3 body, $4 js, $5 link-target-rename
     echo "<title>$1</title>"; echo '<meta name="claude:viewport-fit-sides" content="cover">'
-    echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">'
+    echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap">'
     echo '<style>'; cat ../tokens/primitives.css ../tokens/semantic.css ../base.css ../layout.css "$2"; echo '</style>'
     cat "$3"; echo '<script>'; cat "$4"; echo '</script>'
   }

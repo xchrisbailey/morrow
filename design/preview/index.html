@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Morrow Foundations</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="../index.css">
 <link rel="stylesheet" href="./preview.css">
 </head>
@@ -55,8 +55,8 @@
           Two themes, Day and Dusk. Warm sand paper and green-gray ink carry 90 to 95% of every
           screen. One muted sage accent (hue 155) marks the primary action, links, selection and
           focus. All values are OKLCH so steps are even. Components use the semantic roles below,
-          never the ramps. Role names follow shadcn's (ADR-0003): primary is the sage accent,
-          accent is the hover and selected wash.
+          never the ramps. Role names follow shadcn's (ADR-0003): primary is the sage accent, accent
+          is the hover and selected wash.
         </p>
       </div>
       <div class="stack" id="ramps" style="--gap: var(--space-4)"></div>
@@ -117,11 +117,11 @@
       <div class="stack" style="--gap: var(--space-2)">
         <h2 class="pv-h2">Typography</h2>
         <p class="pv-note">
-          Geist for everything you operate, Newsreader (<code>--font-display</code>) for the brand,
-          the greeting and page and section titles. 1.2 ratio from a 16px base; app UI sits at
-          14px and long-form text at 16px. Sizes from xl up are fluid between 360px and 1280px
-          viewports. Nothing is smaller than 13px, and labels are sentence case at 13px medium,
-          never tracked capitals.
+          Geist for everything you operate, Geist Serif (<code>--font-display</code>) for the brand,
+          the greeting and page and section titles. 1.2 ratio from a 16px base; app UI sits at 14px
+          and long-form text at 16px. Sizes from xl up are fluid between 360px and 1280px viewports.
+          Nothing is smaller than 13px, and labels are sentence case at 13px medium, never tracked
+          capitals.
         </p>
       </div>
       <div id="type-rows"></div>
@@ -149,9 +149,9 @@
       <div class="stack" style="--gap: var(--space-2)">
         <h2 class="pv-h2">Spacing</h2>
         <p class="pv-note">
-          A 4px base with 2px half steps for control and card interiors. The step name is the
-          number of 4px units, so <code>--space-6</code> is 24px and <code>--space-3-5</code> 14px.
-          Layout also has fluid tokens: <code>--gutter</code> (16 to 40px) and
+          A 4px base with 2px half steps for control and card interiors. The step name is the number
+          of 4px units, so <code>--space-6</code> is 24px and <code>--space-3-5</code> 14px. Layout
+          also has fluid tokens: <code>--gutter</code> (16 to 40px) and
           <code>--section-space</code> (48 to 96px).
         </p>
       </div>
@@ -163,8 +163,8 @@
         <h2 class="pv-h2">Radius</h2>
         <p class="pv-note">
           One soft family that gets rounder as things get bigger: 6px checkboxes, 10px controls,
-          12px kanban cards, 16px board columns, 20px page panels and dialogs. No other values.
-          The primitives are <code>--radius-6/10/12/16/20</code>; components use
+          12px kanban cards, 16px board columns, 20px page panels and dialogs. No other values. The
+          primitives are <code>--radius-6/10/12/16/20</code>; components use
           <code>rounded-check/control/card/column/panel/dialog</code>.
         </p>
       </div>

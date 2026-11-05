@@ -29,9 +29,10 @@ space's board below.
   hue ~155) replaces blue, and info uses it too. Exact concept colours are
   kept; the only change is `--accent-foreground` on `--accent`, darkened to
   sage-700 because the concept's pairing measured 4.3:1.
-- **Type.** Geist for UI at 14px, Newsreader (`--font-display`) for the
-  brand, greeting and page and section titles. Both are self-hosted through
-  `@fontsource-variable`, so the self-hosted app makes no font requests.
+- **Type.** Geist for UI at 14px, Geist Serif (`--font-display`, regular
+  weight only) for the brand, greeting and page and section titles. Both are
+  self-hosted (Geist through `@fontsource-variable`, Geist Serif vendored
+  under `src/assets/fonts/`), so the app makes no font requests.
 - **Radius.** 6 / 10 / 12 / 16 / 20, rounder as things get bigger.
 - **Cards at rest** are flat with a 1px border; shadows are for things that
   float.

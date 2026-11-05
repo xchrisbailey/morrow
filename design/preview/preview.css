@@ -1,4 +1,12 @@
 /* Styles for the token preview page only. Not part of the system. */
+
+/* The app vendors Geist Serif; the preview reads the same file. */
+@font-face {
+  font-family: "Geist Serif";
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../src/assets/fonts/geist-serif/GeistSerif-Regular.woff2") format("woff2");
+}
 .pv-page {
   padding-inline: max(16px, env(safe-area-inset-left, 0px))
     max(16px, env(safe-area-inset-right, 0px));

@@ -13,17 +13,17 @@ Dashboard" concept (ADR-0004).
 
 ## Where things live
 
-| File                            | What it holds                                                                                                                                                                   |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `design/index.css`              | Entry point. Import once, globally.                                                                                                                                             |
-| `design/tokens/primitives.css`  | Raw values: color ramps (sand, gray, sage, status, scene), type scale, spacing, radius, motion, z-index, breakpoints.                                                           |
-| `design/tokens/semantic.css`    | Role tokens, named as shadcn names them (`--foreground`, `--primary`, `--border`...) plus morrow's own (`--text-subtle`, `--success`, `--shadow-md`...). Light and dark themes. |
-| `design/tokens/breakpoints.css` | `@custom-media` names for when a CSS build step exists. Not imported yet.                                                                                                       |
-| `design/base.css`               | Reset and element defaults wired to tokens.                                                                                                                                     |
-| `design/layout.css`             | Layout tokens, primitives, containers, page shells and app views.                                                                                                               |
-| `design/preview/`               | Foundations page. Open `index.html` in a browser. Rebuild with `sh design/preview/build.sh`.                                                                                    |
-| `src/styles/app.css`            | The app's style entry: Tailwind, the self-hosted fonts, `design/index.css` in `layer(base)`, and the `@theme inline` map from tokens to classes.                                |
-| `src/styles/motion.css`         | Retunes `tw-animate-css` and shadcn's transitions to rule 7.                                                                                                                    |
+| File                            | What it holds                                                                                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `design/index.css`              | Entry point. Import once, globally.                                                                                                                                                                                               |
+| `design/tokens/primitives.css`  | Raw values: color ramps (sand, gray, sage, status, scene), type scale, spacing, radius, motion, z-index, breakpoints.                                                                                                             |
+| `design/tokens/semantic.css`    | Role tokens, named as shadcn names them (`--foreground`, `--primary`, `--border`...) plus morrow's own (`--text-subtle`, `--success`, `--shadow-md`...). Light and dark themes.                                                   |
+| `design/tokens/breakpoints.css` | `@custom-media` names for when a CSS build step exists. Not imported yet.                                                                                                                                                         |
+| `design/base.css`               | Reset and element defaults wired to tokens.                                                                                                                                                                                       |
+| `design/layout.css`             | Layout tokens, primitives, containers, page shells and app views.                                                                                                                                                                 |
+| `design/preview/`               | Foundations page. Open `index.html` in a browser. Rebuild with `sh design/preview/build.sh`.                                                                                                                                      |
+| `src/styles/app.css`            | The app's style entry: Tailwind, the self-hosted fonts (Geist from `@fontsource-variable`, Geist Serif vendored in `src/assets/fonts/`), `design/index.css` in `layer(base)`, and the `@theme inline` map from tokens to classes. |
+| `src/styles/motion.css`         | Retunes `tw-animate-css` and shadcn's transitions to rule 7.                                                                                                                                                                      |
 
 ## Rules
 
@@ -39,8 +39,8 @@ Dashboard" concept (ADR-0004).
    4.5:1 or more and is for labels, dates and meta. `--text-subtle` is for
    placeholders and counts only.
 4. **Two voices, nothing under 13px.** Geist for everything you operate, at
-   14px in app UI and 16px for long-form text. Newsreader (`--font-display`,
-   `font-display`) at medium weight for the brand, the greeting, and page and
+   14px in app UI and 16px for long-form text. Geist Serif (`--font-display`,
+   `font-display`, regular weight; it has no other) for the brand, the greeting, and page and
    section titles (`h1`, `h2`); card and dialog titles stay in Geist. Labels are
    sentence case at 13px medium. No tracked capitals.
 5. **One radius family, rounder as things get bigger.** 6px checkboxes, 10px

@@ -23,7 +23,6 @@
     "@blocknote/react": "catalog:",
     "@blocknote/shadcn": "catalog:",
     "@fontsource-variable/geist": "catalog:",
-    "@fontsource-variable/newsreader": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "^1.170.46",
