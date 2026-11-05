@@ -578,7 +578,7 @@
 .page-block__title {
   font-family: var(--font-display);
   font-size: var(--text-xl);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   letter-spacing: 0;
 }
 
@@ -726,7 +726,7 @@
   font-family: var(--font-display);
   font-size: var(--text-3xl);
   line-height: var(--leading-tight);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   margin-block-end: var(--space-4);
 }
 .editor__block {

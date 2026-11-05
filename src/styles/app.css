@@ -1,12 +1,21 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* Self-hosted type: Geist (UI) and Newsreader (display). */
+/* Self-hosted type: Geist (UI) and Geist Serif (display). */
 @import "@fontsource-variable/geist";
-@import "@fontsource-variable/newsreader/opsz.css";
 /* Morrow tokens go in the base layer so the design reset (`* { margin: 0 }`)
    cannot beat Tailwind's utilities. Imported once, here (ADR-0003). */
 @import "../../design/index.css" layer(base);
 @import "./motion.css";
+
+/* Geist Serif by Vercel (SIL OFL 1.1, see the OFL.txt beside it), vendored
+   from the `geist` npm package, which only ships it for next/font. */
+@font-face {
+  font-family: "Geist Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/geist-serif/GeistSerif-Regular.woff2") format("woff2");
+}
 
 /* Tailwind scans these for class names: BlockNote's shadcn view ships classes
    in node_modules. */

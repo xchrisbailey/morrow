@@ -65,12 +65,13 @@ h6 {
   text-wrap: balance;
 }
 
-/* Page and section titles speak in the serif display voice, at medium
-   weight; smaller headings (cards, dialogs, groups) stay in Geist. */
+/* Page and section titles speak in the serif display voice (Geist Serif,
+   which has one weight: regular); smaller headings (cards, dialogs, groups)
+   stay in Geist. */
 h1,
 h2 {
   font-family: var(--font-display);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-tight);
 }
 h1 {
