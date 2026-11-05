@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+/* Morrow tokens, placed in the base layer so its unlayered reset
+   (`* { margin: 0 }`) cannot beat Tailwind utilities. */
+@import "../../../design/index.css" layer(base);
+@import "./bridge.css";
+
+/* BlockNote's shadcn package ships Tailwind classes in node_modules. */
+@source "../node_modules/@blocknote/shadcn/dist";
+@source "../node_modules/@blocknote/react/dist";

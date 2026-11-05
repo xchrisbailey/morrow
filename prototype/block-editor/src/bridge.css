@@ -1,0 +1,112 @@
+/* Bridge: shadcn variables and BlockNote --bn-colors-* onto morrow semantic tokens. */
+
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-text);
+  --popover: var(--color-surface-raised);
+  --popover-foreground: var(--color-text);
+  --primary: var(--color-accent);
+  --primary-foreground: var(--color-text-on-accent);
+  --secondary: var(--color-control);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-surface-sunken);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-accent-subtle);
+  --accent-foreground: var(--color-accent-text);
+  --destructive: var(--color-danger);
+  --border: var(--color-border);
+  --input: var(--color-border-strong);
+  --ring: var(--color-focus-ring);
+  --highlight: var(--color-warning-bg);
+  --radius: var(--radius-control);
+}
+
+@theme inline {
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-code);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-highlight: var(--highlight);
+  --color-brand: var(--primary);
+}
+
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) { @slot; }
+  @media (prefers-color-scheme: dark) {
+    &:where(:not([data-theme="light"], [data-theme="light"] *)) { @slot; }
+  }
+}
+
+/* Prototype chrome */
+.proto-card {
+  background: var(--color-surface);
+  border: var(--border-thin, 1px) solid var(--color-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-sm);
+}
+.proto-btn {
+  font-size: var(--text-sm);
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-control);
+}
+.proto-btn:hover { background: var(--color-control-hover); }
+.proto-pill {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--color-surface-inverse); color: var(--color-text-inverse);
+  border-radius: var(--radius-full); box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm); z-index: 50;
+}
+.proto-pill span { min-width: 5.5rem; text-align: center; }
+.proto-pill button { padding: 0.25rem 0.75rem; border-radius: var(--radius-full); }
+.proto-pill button:hover { background: oklch(50% 0 0 / 0.3); }
+
+/* ---- BlockNote overrides (counted as BlockNote styling effort) ---- */
+.bn-shadcn, .bn-container {
+  --bn-colors-editor-text: var(--color-text);
+  --bn-colors-editor-background: var(--color-surface);
+  --bn-colors-menu-text: var(--color-text);
+  --bn-colors-menu-background: var(--color-surface-raised);
+  --bn-colors-tooltip-text: var(--color-text);
+  --bn-colors-tooltip-background: var(--color-surface-raised);
+  --bn-colors-hovered-text: var(--color-text);
+  --bn-colors-hovered-background: var(--color-control-hover);
+  --bn-colors-selected-text: var(--color-text-on-accent);
+  --bn-colors-selected-background: var(--color-accent);
+  --bn-colors-disabled-text: var(--color-text-subtle);
+  --bn-colors-disabled-background: var(--color-surface-sunken);
+  --bn-colors-shadow: var(--color-border);
+  --bn-colors-border: var(--color-border);
+  --bn-colors-side-menu: var(--color-text-subtle);
+  --bn-font-family: var(--font-body);
+  --bn-border-radius: 8px;
+}
+.bn-editor a { color: var(--color-text-link); }
+.bn-editor a:hover { color: var(--color-text-link-hover); }
+.bn-editor [data-content-type="codeBlock"] { background: var(--color-surface-sunken); color: var(--color-text); border-radius: var(--radius-control); }
+.bn-editor [data-content-type="divider"] hr, .bn-editor hr { border-color: var(--color-border); }
+.bn-editor code { font-size: max(0.8125rem, 1em); }
+
+/* ---- Plate overrides ---- */
+[data-slate-editor] code { font-size: max(0.8125rem, 0.9em); }
