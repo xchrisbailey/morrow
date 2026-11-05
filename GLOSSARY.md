@@ -15,3 +15,7 @@ _Avoid_: Admin, user, account
 **Scratchpad**:
 A single free-form note that belongs to the Owner and lives on the home screen, outside any Space or Section.
 _Avoid_: Quick note, inbox, draft
+
+**Space**:
+One of the Owner's two halves of Morrow, Personal or Work, switched in the top bar. Each has its own home and board.
+_Avoid_: Workspace, mode, context

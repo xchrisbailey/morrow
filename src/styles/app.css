@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Self-hosted type: Geist (UI) and Newsreader (display). */
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/newsreader/opsz.css";
 /* Morrow tokens go in the base layer so the design reset (`* { margin: 0 }`)
    cannot beat Tailwind's utilities. Imported once, here (ADR-0003). */
 @import "../../design/index.css" layer(base);
@@ -79,7 +82,12 @@
   --color-info-border: var(--info-border);
   --color-info-text: var(--info-text);
 
-  /* shadcn's scale, derived from --radius (8px). Copied shadcn code uses it;
+  /* Fonts: font-sans, font-serif, font-mono come from the primitives.
+     font-display (page and section titles) repeats the semantic role, since
+     the names clash: keep the two in step. */
+  --font-display: var(--font-serif);
+
+  /* shadcn's scale, derived from --radius (10px). Copied shadcn code uses it;
      app code uses the role aliases below. */
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -89,10 +97,13 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* rounded-control / card / panel / dialog: 8 / 8 / 12 / 20. */
-  --radius-control: var(--radius-8);
-  --radius-card: var(--radius-8);
-  --radius-panel: var(--radius-12);
+  /* rounded-check / control / card / column / panel / dialog:
+     6 / 10 / 12 / 16 / 20 / 20. */
+  --radius-check: var(--radius-6);
+  --radius-control: var(--radius-10);
+  --radius-card: var(--radius-12);
+  --radius-column: var(--radius-16);
+  --radius-panel: var(--radius-20);
   --radius-dialog: var(--radius-20);
 }
 
@@ -125,4 +136,14 @@
   ::before {
     border-color: var(--border);
   }
+}
+
+/* The Scratchpad in the Today panel: the panel is the surface, and the
+   editor's drag-handle gutter tucks into the panel's padding. */
+.today__panel-body {
+  margin-inline: calc(var(--space-5) * -1);
+}
+.today__panel-body .bn-editor {
+  padding-inline: var(--space-12) var(--space-5);
+  background: transparent;
 }

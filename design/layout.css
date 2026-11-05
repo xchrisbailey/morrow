@@ -15,8 +15,9 @@
  *                    page gutters, vertical rhythm between page sections.
  *   3. Page shells - .shell-app, .shell-focus, .shell-site:
  *                    the outer frame of a whole page type.
- *   4. App views   - .board (kanban), .editor (block-editor page),
- *                    .list-view (todos): what fills .shell-app__main.
+ *   4. App views   - .today (hero + Today panel), .board (kanban),
+ *                    .editor (block-editor page), .list-view (todos):
+ *                    what fills .shell-app__main.
  *
  * Primitives compose freely. Spacing is set with a custom property on the
  * element (e.g. style="--gap: var(--space-8)") instead of modifier classes.
@@ -32,6 +33,8 @@
 
   /* Space between major page sections. */
   --section-space: clamp(3rem, 2rem + 4vw, 6rem);
+  /* Space between the blocks of an app page (Today row, board). */
+  --page-block-gap: var(--space-9); /* 36 */
 
   /* Default gaps for primitives */
   --gap-xs: var(--space-1);
@@ -47,17 +50,26 @@
   --container-lg: 64rem; /* 1024: default app content */
   --container-xl: 80rem; /* 1280: marketing, dashboards */
   --container-2xl: 96rem; /* 1536: data-dense, full tables */
+  --container-app: 85rem; /* 1360: the signed-in app's content width */
 
   /* Shell chrome */
   --header-height: 3.5rem; /* 56 */
-  --sidebar-width: 16rem; /* 256 */
-  --sidebar-width-collapsed: 4rem; /* 64 */
+  --header-gutter: var(--space-5); /* 20 */
+  --app-gutter: var(--space-6); /* 24: sides of the app's main column */
+  --space-switch-width: 6.5rem; /* 104: each Personal / Work segment */
   --inspector-width: 22rem; /* 352: card detail panel beside the board */
 
+  /* Today row: the hero and the Today panel share one height. */
+  --today-height: 21.25rem; /* 340 */
+  --today-height-phone: 13.75rem; /* 220: hero only, below sm */
+  --hero-min: 35rem; /* 560: hero's preferred width before the row wraps */
+  --today-panel-min: 20rem; /* 320 */
+
   /* Board */
-  --board-column-width: 18rem; /* 288: fits a card title + meta on one line */
-  --board-column-gap: var(--space-3);
-  --board-card-gap: var(--space-2);
+  --board-column-width: 18.75rem; /* 300 */
+  --board-column-gap: var(--space-4); /* 16 */
+  --board-card-gap: var(--space-2-5); /* 10 */
+  --board-new-column-width: 13.75rem; /* 220 */
 
   /* Editor */
   --editor-measure: 45rem; /* 720: block editor text column */
@@ -286,85 +298,117 @@
 /* ===================================================================== */
 
 /*
- * App shell: product UI.
+ * App shell: product UI. A top bar, no sidebar; the content is one centered
+ * column up to --container-app wide.
  *
- *   phones            lg and up
- *   +-----------+     +------+------------------+
- *   | header    |     | side | header           |
- *   +-----------+     | bar  +------------------+
- *   | main      |     |      | main             |
- *   |           |     |      |                  |
- *   +-----------+     +------+------------------+
+ *   phones                     md and up
+ *   +-----------------------+  +--------------------------------------+
+ *   | brand        actions  |  | brand    [Personal|Work]     actions |
+ *   | [ Personal | Work  ]  |  +--------------------------------------+
+ *   +-----------------------+  |   main (centered, max 1360px)        |
+ *   | main                  |  |                                      |
+ *   +-----------------------+  +--------------------------------------+
  *
- * The sidebar holds the space switcher (Personal / Work) at the top, then
- * that space's sections, then Todos (Personal only). On phones it is a
- * drawer the app opens by toggling [data-nav-open] on .shell-app.
- * The header carries the current section's title and its actions.
+ * The header holds the brand, the space switcher (Personal / Work) centered,
+ * and the person's actions (search, inbox, settings, avatar menu) at the end.
+ * On phones the switcher drops to its own full-width row.
  */
 .shell-app {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   min-block-size: 100dvh;
-  grid-template:
-    "header" var(--header-height)
-    "main" 1fr
-    / 1fr;
 }
 .shell-app__header {
-  grid-area: header;
   position: sticky;
   inset-block-start: 0;
   z-index: var(--z-sticky);
-  display: flex;
+  display: grid;
+  grid-template-areas:
+    "brand actions"
+    "switch switch";
+  grid-template-columns: 1fr auto;
   align-items: center;
-  gap: var(--gap-md);
-  padding-inline: var(--gutter);
+  column-gap: var(--space-3);
+  row-gap: var(--space-2);
+  padding: var(--space-2) var(--header-gutter);
   background: var(--card);
   border-block-end: var(--border-thin) solid var(--border);
 }
-.shell-app__sidebar {
-  position: fixed;
-  inset-block: 0;
-  inset-inline-start: 0;
-  z-index: var(--z-modal);
-  inline-size: min(var(--sidebar-width), 85vw);
-  overflow-y: auto;
-  background: var(--card);
-  border-inline-end: var(--border-thin) solid var(--border);
-  transform: translateX(-100%);
-  transition: transform var(--duration-sheet) var(--ease-standard);
+.shell-app__brand {
+  grid-area: brand;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2-5);
+  min-inline-size: 0;
 }
-.shell-app[data-nav-open] .shell-app__sidebar {
-  transform: none;
-  box-shadow: var(--shadow-xl);
+.shell-app__switch {
+  grid-area: switch;
+}
+.shell-app__actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
 }
 .shell-app__main {
-  grid-area: main;
+  flex: 1;
+  inline-size: 100%;
+  max-inline-size: calc(var(--container-app) + var(--app-gutter) * 2);
+  margin-inline: auto;
+  padding: var(--space-7) var(--app-gutter) var(--space-14);
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-block-gap);
   min-inline-size: 0;
-  padding-block: var(--space-8);
 }
-@media (min-width: 64rem) /* lg */ {
-  .shell-app {
-    grid-template:
-      "sidebar header" var(--header-height)
-      "sidebar main" 1fr
-      / var(--sidebar-width) 1fr;
+@media (min-width: 48rem) /* md */ {
+  .shell-app__header {
+    grid-template-areas: "brand switch actions";
+    grid-template-columns: 1fr auto 1fr;
+    block-size: var(--header-height);
+    padding-block: 0;
   }
-  .shell-app[data-nav-collapsed] {
-    --sidebar-width: var(--sidebar-width-collapsed);
-  }
-  .shell-app__sidebar {
-    grid-area: sidebar;
-    position: sticky;
-    inset-block-start: 0;
-    block-size: 100dvh;
-    inline-size: auto;
-    z-index: auto;
-    transform: none;
-    transition: none;
-  }
-  .shell-app[data-nav-open] .shell-app__sidebar {
-    box-shadow: none;
-  }
+}
+
+/*
+ * Space switch: the Personal / Work segmented toggle in the header.
+ * Segments are links or buttons with aria-current / aria-pressed.
+ */
+.space-switch {
+  display: flex;
+  gap: var(--space-0-5);
+  padding: 3px;
+  border-radius: var(--radius-full);
+  background: var(--background-subtle);
+}
+.space-switch__option {
+  flex: 1;
+  min-inline-size: var(--space-switch-width);
+  min-block-size: 2.125rem; /* 34; the track brings it to 40 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--space-4);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition:
+    background-color var(--duration-out) var(--ease-standard),
+    color var(--duration-out) var(--ease-standard);
+}
+.space-switch__option:hover {
+  color: var(--foreground);
+  transition-duration: var(--duration-in);
+}
+.space-switch__option:is([aria-current="page"], [aria-pressed="true"]) {
+  background: var(--card);
+  color: var(--foreground);
+  font-weight: var(--weight-medium);
+  box-shadow: var(--shadow-xs);
 }
 
 /*
@@ -418,14 +462,136 @@
 /* ===================================================================== */
 
 /*
- * Board: a section's kanban. Columns scroll sideways inside the board,
- * never the page. Each column scrolls its own cards vertically.
+ * Today: the top of a space's home. A hero image with the greeting on the
+ * left, the Today panel (todos, Scratchpad) on the right. Both share
+ * --today-height; the row wraps to a stack when the hero would drop below
+ * --hero-min. Below sm the hero shortens to --today-height-phone and the
+ * panel grows with its content.
+ *
+ *   .today
+ *     .today__hero     (figure: .scene art + .today__caption)
+ *     .today__panel    (section: header row + scrolling body)
+ */
+.today {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+.today__hero {
+  position: relative;
+  flex: 999 1 var(--hero-min);
+  min-inline-size: 0;
+  block-size: var(--today-height-phone);
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-panel);
+  background: var(--scene-sky);
+}
+.today__hero > .scene {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.today__caption {
+  position: absolute;
+  inset-inline-start: var(--space-5);
+  inset-block-end: var(--space-5);
+  max-inline-size: calc(100% - var(--space-10));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3-5) var(--space-4-5);
+  border-radius: var(--radius-column);
+  background: var(--scene-caption);
+  color: var(--scene-caption-foreground);
+  backdrop-filter: blur(6px);
+}
+.today__greeting {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+}
+.today__date {
+  font-size: var(--text-xs);
+}
+.today__panel {
+  flex: 1 1 var(--today-panel-min);
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-panel);
+  background: var(--card);
+  border: var(--border-thin) solid var(--border);
+}
+.today__panel-body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow: auto;
+}
+@media (min-width: 40rem) /* sm */ {
+  .today__hero,
+  .today__panel {
+    block-size: var(--today-height);
+  }
+}
+
+/* Scene: the hero's landscape. SVG fills read the --scene-* tokens. */
+.scene__sky {
+  fill: var(--scene-sky);
+}
+.scene__sun {
+  fill: var(--scene-sun);
+}
+.scene__hill-far {
+  fill: var(--scene-hill-far);
+}
+.scene__hill-near {
+  fill: var(--scene-hill-near);
+}
+.scene__water {
+  fill: var(--scene-water);
+}
+.scene__glint {
+  stroke: var(--scene-sun);
+}
+
+/*
+ * Page block: a titled block of an app page (the board, later others).
+ * A header row (serif title, actions at the end) over its content.
+ */
+.page-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+.page-block__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.page-block__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0;
+}
+
+/*
+ * Board: a space's kanban. Columns scroll sideways inside the board, never
+ * the page; columns grow with their cards and the page scrolls.
  *
  *   .board
  *     .board__column           (one per user-defined column)
- *       .board__column-header  (title, count, add)
+ *       .board__column-header  (title, count, options)
  *       .board__cards          (the card list; drop target)
- *     .board__column--new      (the "Add column" slot at the end)
+ *       .board__add            (add a card)
+ *     .board__new-column       (the "New column" slot at the end)
  *
  * On phones columns snap one at a time, at nearly full width.
  */
@@ -435,18 +601,18 @@
   grid-auto-columns: var(--board-column-width);
   gap: var(--board-column-gap);
   align-items: start;
+  justify-content: start;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding-inline: var(--gutter);
-  padding-block-end: var(--space-4);
-  scroll-padding-inline: var(--gutter);
+  padding-block-end: var(--space-2);
   scroll-snap-type: x proximity;
 }
 .board__column {
   display: flex;
   flex-direction: column;
-  max-block-size: calc(100dvh - var(--header-height) - var(--space-16));
-  border-radius: var(--radius-panel);
+  gap: var(--board-card-gap);
+  padding: var(--space-3);
+  border-radius: var(--radius-column);
   background: var(--background-subtle);
   scroll-snap-align: start;
 }
@@ -454,20 +620,37 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-3) var(--space-2);
+  padding: var(--space-0-5) var(--space-1) var(--space-1);
   font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
+}
+.board__count {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--background);
+  color: var(--muted-foreground);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
 }
 .board__cards {
   display: flex;
   flex-direction: column;
   gap: var(--board-card-gap);
-  padding: var(--space-1) var(--space-2) var(--space-2);
-  overflow-y: auto;
   min-block-size: var(--space-12); /* an empty column still accepts drops */
 }
-.board__column--new {
-  background: transparent;
+.board__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2-5);
+  padding: var(--space-3-5);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  border: var(--border-thin) solid var(--border);
+}
+.board__new-column {
+  inline-size: var(--board-new-column-width);
+  block-size: var(--space-14);
+  border-radius: var(--radius-column);
   border: var(--border-thin) dashed var(--border);
 }
 @media (max-width: 39.99rem) /* below sm */ {
@@ -526,6 +709,7 @@
     minmax(var(--gutter), 1fr) [full-end];
   row-gap: var(--space-1);
   padding-block: var(--space-12) var(--space-32);
+  font-size: var(--text-md);
   line-height: var(--leading-relaxed);
 }
 .editor > * {
@@ -539,10 +723,10 @@
   grid-column: full;
 }
 .editor__title {
+  font-family: var(--font-display);
   font-size: var(--text-3xl);
   line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-medium);
   margin-block-end: var(--space-4);
 }
 .editor__block {

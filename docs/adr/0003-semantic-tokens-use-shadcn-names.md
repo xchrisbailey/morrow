@@ -31,17 +31,17 @@ worked, but two names collided in Tailwind's namespace:
   `--popover`, `--primary`, `--secondary`, `--muted`, `--accent`,
   `--destructive`, `--border`, `--input`, `--ring`, and their `-foreground`
   pairs.
-  - Morrow's brand blue is **primary**.
+  - Morrow's accent (sage since ADR-0004, blue before) is **primary**.
   - **accent** means the hover/selected wash.
   - Roles shadcn lacks keep morrow names: sunken surface, subtle text, links,
     status colours, selection and shadows.
   - There is no bridge file. Tailwind's `@theme inline` maps these variables
     to classes.
-- **Radius.** shadcn's radius scale derives from `--radius: 8px`. Morrow's
-  radius primitives are renamed out of the clash (`--radius-8`, `--radius-12`,
-  `--radius-20`). The role aliases are exposed as `rounded-control`,
-  `rounded-card`, `rounded-panel` and `rounded-dialog`, and app code uses
-  those.
+- **Radius.** shadcn's radius scale derives from `--radius` (10px since
+  ADR-0004). Morrow's radius primitives are named by pixel value out of the
+  clash (`--radius-6/10/12/16/20` since ADR-0004). The role aliases are exposed
+  as `rounded-check`, `rounded-control`, `rounded-card`, `rounded-column`,
+  `rounded-panel` and `rounded-dialog`, and app code uses those.
 - **Motion.** `tw-animate-css` stays. One motion stylesheet overrides it to
   rule 7: no zoom, a 6px drop, `--duration-panel` on `--ease-standard`.
   Generated components' hover and press transitions are retuned to

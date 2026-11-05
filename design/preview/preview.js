@@ -34,8 +34,13 @@
 
   // Ramps
   var ramps = [
-    ["Gray", "gray", [0, 25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 850, 900, 950]],
-    ["Blue (accent, also info)", "blue", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
+    ["Sand (Day surfaces)", "sand", [25, 50, 100, 200, 300]],
+    [
+      "Gray (ink, Dusk surfaces)",
+      "gray",
+      [50, 100, 200, 300, 400, 500, 600, 700, 800, 850, 875, 900, 950],
+    ],
+    ["Sage (accent, also info)", "sage", [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]],
     ["Green", "green", [100, 300, 500, 700, 900]],
     ["Amber", "amber", [100, 300, 500, 700, 900]],
     ["Red", "red", [100, 300, 500, 700, 900]],
@@ -52,7 +57,7 @@
     );
     var row = el("div", { class: "pv-ramp" });
     r[2].forEach(function (s) {
-      var light = s <= (r[1] === "amber" ? 500 : 400);
+      var light = r[1] === "sand" || s <= (r[1] === "amber" ? 500 : 400);
       row.appendChild(
         el(
           "div",
@@ -63,7 +68,7 @@
               "-" +
               s +
               "); color: " +
-              (light ? "var(--gray-900)" : "var(--gray-25)"),
+              (light ? "var(--gray-850)" : "var(--sand-25)"),
             title: "--" + r[1] + "-" + s,
           },
           String(s),
@@ -77,6 +82,7 @@
   // Roles
   var roles = [
     ["--background", "Page background"],
+    ["--background-subtle", "Board columns, toggle track"],
     ["--card", "Cards, panels"],
     ["--popover", "Popovers, dialogs"],
     ["--muted", "Wells, code"],
@@ -85,7 +91,7 @@
     ["--text-subtle", "Placeholders, captions"],
     ["--border", "Default borders"],
     ["--input", "Inputs, emphasis"],
-    ["--primary", "Primary actions (brand blue)"],
+    ["--primary", "Primary actions (sage)"],
     ["--accent", "Hover, selected wash"],
     ["--ring", "Keyboard focus"],
   ];
@@ -143,7 +149,29 @@
   });
 
   // Spacing
-  var steps = ["0-5", "1", "1-5", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24", "32"];
+  var steps = [
+    "0-5",
+    "1",
+    "1-5",
+    "2",
+    "2-5",
+    "3",
+    "3-5",
+    "4",
+    "4-5",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "12",
+    "14",
+    "16",
+    "20",
+    "24",
+    "32",
+  ];
   var spEl = document.getElementById("space-rows");
   steps.forEach(function (s) {
     var px = parseFloat(s.replace("-", ".")) * 4;
@@ -165,10 +193,11 @@
   // Radius
   var rEl = document.getElementById("radius-tiles");
   [
-    ["4", "4px"],
-    ["8", "8px control, card"],
-    ["12", "12px panel"],
-    ["20", "20px dialog"],
+    ["6", "6px check"],
+    ["10", "10px control"],
+    ["12", "12px card"],
+    ["16", "16px column"],
+    ["20", "20px panel, dialog"],
     ["full", "pill"],
   ].forEach(function (r) {
     rEl.appendChild(

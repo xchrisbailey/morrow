@@ -21,7 +21,8 @@ test("fresh Instance: set up, sign out, sign in, Scratchpad persists", async ({ 
   // Setup signs the Owner in and lands on the Scratchpad.
   await expect(page.getByRole("heading", { name: "Scratchpad" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Sign out" }).click();
+  await page.getByRole("button", { name: "Account" }).click();
+  await page.getByRole("menuitem", { name: "Sign out" }).click();
   await expect(page).toHaveURL(/\/sign-in$/);
 
   await page.getByLabel("Email").fill(email);
