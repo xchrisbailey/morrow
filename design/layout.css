@@ -1,0 +1,561 @@
+/*
+ * Morrow layout system
+ *
+ * Morrow is a personal hub for solo developers: two spaces (Personal and
+ * Work), each holding user-defined sections. A section is a kanban board
+ * whose cards can be notes (block editor), task lists and more; Personal
+ * also has a todo list. The layouts below are shaped around that.
+ *
+ * Three levels, from smallest to largest:
+ *
+ *   1. Primitives  - stack, cluster, grid, sidebar, switcher, center,
+ *                    cover, frame. Each solves one spacing/arrangement job
+ *                    and mostly responds to its own width, not the viewport.
+ *   2. Containers  - .container (+ size modifiers) and .section: max width,
+ *                    page gutters, vertical rhythm between page sections.
+ *   3. Page shells - .shell-app, .shell-focus, .shell-site:
+ *                    the outer frame of a whole page type.
+ *   4. App views   - .board (kanban), .editor (block-editor page),
+ *                    .list-view (todos): what fills .shell-app__main.
+ *
+ * Primitives compose freely. Spacing is set with a custom property on the
+ * element (e.g. style="--gap: var(--space-8)") instead of modifier classes.
+ */
+
+/* ===================================================================== */
+/* Layout tokens                                                          */
+/* ===================================================================== */
+
+:root {
+  /* Page gutter: 16px on phones, growing to 40px on wide screens. */
+  --gutter: clamp(1rem, 0.6rem + 1.8vw, 2.5rem);
+
+  /* Space between major page sections. */
+  --section-space: clamp(3rem, 2rem + 4vw, 6rem);
+
+  /* Default gaps for primitives */
+  --gap-xs: var(--space-1);
+  --gap-sm: var(--space-2);
+  --gap-md: var(--space-4);
+  --gap-lg: var(--space-6);
+  --gap-xl: var(--space-10);
+
+  /* Container widths (content box, gutters added outside) */
+  --container-xs: 28rem; /* 448: auth forms, dialogs */
+  --container-sm: 40rem; /* 640: single-column reading */
+  --container-md: 48rem; /* 768: articles with media */
+  --container-lg: 64rem; /* 1024: default app content */
+  --container-xl: 80rem; /* 1280: marketing, dashboards */
+  --container-2xl: 96rem; /* 1536: data-dense, full tables */
+
+  /* Shell chrome */
+  --header-height: 3.5rem; /* 56 */
+  --sidebar-width: 16rem; /* 256 */
+  --sidebar-width-collapsed: 4rem; /* 64 */
+  --inspector-width: 22rem; /* 352: card detail panel beside the board */
+
+  /* Board */
+  --board-column-width: 18rem; /* 288: fits a card title + meta on one line */
+  --board-column-gap: var(--space-3);
+  --board-card-gap: var(--space-2);
+
+  /* Editor */
+  --editor-measure: 45rem; /* 720: block editor text column */
+  --editor-handle-space: var(--space-8); /* gutter left of blocks for drag handles */
+
+  /* Grid */
+  --grid-columns: 12;
+  --grid-gap: var(--space-6);
+}
+
+/* ===================================================================== */
+/* 1. Primitives                                                          */
+/* ===================================================================== */
+
+/* Stack: vertical flow with consistent gap.
+   --gap: space between children (default md) */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap, var(--gap-md));
+}
+
+/* Cluster: horizontal group that wraps (tags, button rows, toolbars).
+   --gap, --justify, --align */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--gap-sm));
+  justify-content: var(--justify, flex-start);
+  align-items: var(--align, center);
+}
+
+/* Spread: two ends of a row (title on left, actions on right). */
+.spread {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--gap-md));
+  justify-content: space-between;
+  align-items: var(--align, center);
+}
+
+/* Auto grid: as many columns as fit, each at least --min wide.
+   No breakpoints needed. --min (default 16rem), --gap */
+.grid-auto {
+  display: grid;
+  gap: var(--gap, var(--grid-gap));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(var(--min, 16rem), 100%), 1fr)
+  );
+}
+
+/* 12-column grid for deliberate, designed layouts.
+   Children default to full width on phones; use .span-* from md up. */
+.grid-12 {
+  display: grid;
+  gap: var(--gap, var(--grid-gap));
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+}
+.grid-12 > * {
+  grid-column: 1 / -1;
+}
+@media (min-width: 48rem) /* md */ {
+  .grid-12 > .span-3 { grid-column: span 3; }
+  .grid-12 > .span-4 { grid-column: span 4; }
+  .grid-12 > .span-5 { grid-column: span 5; }
+  .grid-12 > .span-6 { grid-column: span 6; }
+  .grid-12 > .span-7 { grid-column: span 7; }
+  .grid-12 > .span-8 { grid-column: span 8; }
+  .grid-12 > .span-9 { grid-column: span 9; }
+  .grid-12 > .span-12 { grid-column: span 12; }
+}
+
+/* Sidebar: fixed-ish side + fluid main. Wraps to stacked when the main
+   column would drop below --content-min. Responds to its own width.
+   Put .sidebar-layout__side first in source for a left sidebar. */
+.sidebar-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--gap-lg));
+}
+.sidebar-layout > .sidebar-layout__side {
+  flex-basis: var(--side-width, 16rem);
+  flex-grow: 1;
+}
+.sidebar-layout > .sidebar-layout__main {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--content-min, 55%);
+}
+
+/* Switcher: children sit in a row until the container is narrower than
+   --threshold, then all stack at once. Good for pricing tiers, stats. */
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--gap-md));
+}
+.switcher > * {
+  flex-grow: 1;
+  flex-basis: calc((var(--threshold, 40rem) - 100%) * 999);
+}
+
+/* Center: horizontally center content with a max inline size. */
+.center {
+  box-sizing: content-box;
+  max-inline-size: var(--max, var(--measure));
+  margin-inline: auto;
+}
+.center[data-intrinsic] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cover: vertically centers a principal element in a min height
+   (hero, empty states, auth). Mark the centered child .cover__main. */
+.cover {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap, var(--gap-lg));
+  min-block-size: var(--min-height, 100dvh);
+  padding: var(--pad, var(--gutter));
+}
+.cover > .cover__main {
+  margin-block: auto;
+}
+
+/* Frame: fixed aspect ratio media box. --ratio (default 16/9) */
+.frame {
+  aspect-ratio: var(--ratio, 16 / 9);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.frame > img,
+.frame > video {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+/* Prose: long-form reading. Limits measure and adds rhythm. */
+.prose {
+  max-inline-size: var(--measure);
+  line-height: var(--leading-relaxed);
+}
+.prose > * + * {
+  margin-block-start: var(--space-4);
+}
+.prose > :is(h2, h3, h4) {
+  margin-block-start: var(--space-10);
+}
+.prose > :is(h2, h3, h4) + * {
+  margin-block-start: var(--space-3);
+}
+
+/* ===================================================================== */
+/* 2. Containers                                                          */
+/* ===================================================================== */
+
+/* Container: max-width + page gutters. Default size is lg. */
+.container {
+  inline-size: 100%;
+  max-inline-size: calc(var(--container, var(--container-lg)) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.container--xs { --container: var(--container-xs); }
+.container--sm { --container: var(--container-sm); }
+.container--md { --container: var(--container-md); }
+.container--lg { --container: var(--container-lg); }
+.container--xl { --container: var(--container-xl); }
+.container--2xl { --container: var(--container-2xl); }
+.container--full { --container: 100%; }
+
+/* Section: vertical rhythm between page bands. */
+.section {
+  padding-block: var(--section-space);
+}
+.section--tight {
+  padding-block: calc(var(--section-space) / 2);
+}
+
+/* Breakout: inside a .container, lets a child bleed to the viewport edge. */
+.breakout {
+  margin-inline: calc(50% - 50vw);
+}
+
+/* Container-query scope: opt-in on any wrapper whose children should
+   respond to the wrapper's width (cards in a sidebar vs. main, etc). */
+.cq {
+  container-type: inline-size;
+}
+
+/* ===================================================================== */
+/* 3. Page shells                                                         */
+/* ===================================================================== */
+
+/*
+ * App shell: product UI.
+ *
+ *   phones            lg and up
+ *   +-----------+     +------+------------------+
+ *   | header    |     | side | header           |
+ *   +-----------+     | bar  +------------------+
+ *   | main      |     |      | main             |
+ *   |           |     |      |                  |
+ *   +-----------+     +------+------------------+
+ *
+ * The sidebar holds the space switcher (Personal / Work) at the top, then
+ * that space's sections, then Todos (Personal only). On phones it is a
+ * drawer the app opens by toggling [data-nav-open] on .shell-app.
+ * The header carries the current section's title and its actions.
+ */
+.shell-app {
+  display: grid;
+  min-block-size: 100dvh;
+  grid-template:
+    "header" var(--header-height)
+    "main" 1fr
+    / 1fr;
+}
+.shell-app__header {
+  grid-area: header;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-md);
+  padding-inline: var(--gutter);
+  background: var(--color-surface);
+  border-block-end: var(--border-thin) solid var(--color-border);
+}
+.shell-app__sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: var(--z-modal);
+  inline-size: min(var(--sidebar-width), 85vw);
+  overflow-y: auto;
+  background: var(--color-surface);
+  border-inline-end: var(--border-thin) solid var(--color-border);
+  transform: translateX(-100%);
+  transition: transform var(--duration-sheet) var(--ease-standard);
+}
+.shell-app[data-nav-open] .shell-app__sidebar {
+  transform: none;
+  box-shadow: var(--shadow-xl);
+}
+.shell-app__main {
+  grid-area: main;
+  min-inline-size: 0;
+  padding-block: var(--space-8);
+}
+@media (min-width: 64rem) /* lg */ {
+  .shell-app {
+    grid-template:
+      "sidebar header" var(--header-height)
+      "sidebar main" 1fr
+      / var(--sidebar-width) 1fr;
+  }
+  .shell-app[data-nav-collapsed] {
+    --sidebar-width: var(--sidebar-width-collapsed);
+  }
+  .shell-app__sidebar {
+    grid-area: sidebar;
+    position: sticky;
+    inset-block-start: 0;
+    block-size: 100dvh;
+    inline-size: auto;
+    z-index: auto;
+    transform: none;
+    transition: none;
+  }
+  .shell-app[data-nav-open] .shell-app__sidebar {
+    box-shadow: none;
+  }
+}
+
+/*
+ * Site shell: a future public landing page. Header, full-bleed main made
+ * of .section bands (each with its own .container), footer pinned to bottom.
+ * Kept minimal; the app shells matter first.
+ */
+.shell-site {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-block-size: 100dvh;
+}
+.shell-site__header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-sticky);
+  block-size: var(--header-height);
+  display: flex;
+  align-items: center;
+  background: var(--color-bg);
+  border-block-end: var(--border-thin) solid var(--color-border);
+}
+.shell-site__footer {
+  padding-block: var(--space-12);
+  background: var(--color-bg-subtle);
+  border-block-start: var(--border-thin) solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/*
+ * Focus shell: one task, no navigation (sign in, onboarding, checkout).
+ * A narrow card centered on the page, with an optional top bar for the
+ * logo and an exit link.
+ */
+.shell-focus {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+  padding: var(--gutter);
+  background: var(--color-bg-subtle);
+}
+.shell-focus__main {
+  inline-size: 100%;
+  max-inline-size: var(--container-xs);
+  margin: auto;
+}
+
+/* ===================================================================== */
+/* 4. App views                                                           */
+/* ===================================================================== */
+
+/*
+ * Board: a section's kanban. Columns scroll sideways inside the board,
+ * never the page. Each column scrolls its own cards vertically.
+ *
+ *   .board
+ *     .board__column           (one per user-defined column)
+ *       .board__column-header  (title, count, add)
+ *       .board__cards          (the card list; drop target)
+ *     .board__column--new      (the "Add column" slot at the end)
+ *
+ * On phones columns snap one at a time, at nearly full width.
+ */
+.board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--board-column-width);
+  gap: var(--board-column-gap);
+  align-items: start;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-inline: var(--gutter);
+  padding-block-end: var(--space-4);
+  scroll-padding-inline: var(--gutter);
+  scroll-snap-type: x proximity;
+}
+.board__column {
+  display: flex;
+  flex-direction: column;
+  max-block-size: calc(100dvh - var(--header-height) - var(--space-16));
+  border-radius: var(--radius-panel);
+  background: var(--color-bg-subtle);
+  scroll-snap-align: start;
+}
+.board__column-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+.board__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--board-card-gap);
+  padding: var(--space-1) var(--space-2) var(--space-2);
+  overflow-y: auto;
+  min-block-size: var(--space-12); /* an empty column still accepts drops */
+}
+.board__column--new {
+  background: transparent;
+  border: var(--border-thin) dashed var(--color-border);
+}
+@media (max-width: 39.99rem) /* below sm */ {
+  .board {
+    grid-auto-columns: calc(100% - var(--space-8));
+    scroll-snap-type: x mandatory;
+  }
+}
+
+/*
+ * Board + inspector: a selected card opens beside the board on wide
+ * screens, and as a sheet over it below xl.
+ */
+.with-inspector {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.with-inspector__panel {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: var(--z-modal);
+  inline-size: min(var(--inspector-width), 100vw);
+  overflow-y: auto;
+  background: var(--color-surface-raised);
+  border-inline-start: var(--border-thin) solid var(--color-border);
+  box-shadow: var(--shadow-xl);
+}
+@media (min-width: 80rem) /* xl */ {
+  .with-inspector {
+    grid-template-columns: minmax(0, 1fr) var(--inspector-width);
+  }
+  .with-inspector__panel {
+    position: sticky;
+    inset-block-start: var(--header-height);
+    block-size: calc(100dvh - var(--header-height));
+    inline-size: auto;
+    z-index: auto;
+    box-shadow: none;
+  }
+}
+
+/*
+ * Editor: a note page with a Notion-style block editor. One centered text
+ * column; a gutter on the left holds each block's drag handle and "+"
+ * button, which appear on hover. Full-width blocks (tables, embeds) add
+ * .editor__block--wide to break out of the measure.
+ */
+.editor {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(var(--gutter), 1fr)
+    [wide-start] minmax(0, var(--editor-handle-space))
+    [content-start] min(var(--editor-measure), 100% - var(--gutter) * 2) [content-end]
+    minmax(0, var(--editor-handle-space)) [wide-end]
+    minmax(var(--gutter), 1fr) [full-end];
+  row-gap: var(--space-1);
+  padding-block: var(--space-12) var(--space-32);
+  line-height: var(--leading-relaxed);
+}
+.editor > * {
+  grid-column: content;
+  min-inline-size: 0;
+}
+.editor > .editor__block--wide {
+  grid-column: wide;
+}
+.editor > .editor__block--full {
+  grid-column: full;
+}
+.editor__title {
+  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--weight-semibold);
+  margin-block-end: var(--space-4);
+}
+.editor__block {
+  position: relative;
+}
+.editor__handle {
+  position: absolute;
+  inset-inline-end: calc(100% + var(--space-1));
+  inset-block-start: 0.15em;
+  display: flex;
+  gap: var(--space-0-5);
+  opacity: 0;
+  transition: opacity var(--duration-out) var(--ease-standard);
+}
+.editor__block:hover > .editor__handle,
+.editor__block:focus-within > .editor__handle {
+  opacity: 1;
+  transition-duration: var(--duration-in);
+}
+@media (hover: none) {
+  .editor__handle {
+    display: none; /* touch: use the block menu instead */
+  }
+}
+
+/*
+ * List view: Personal todos and any task list opened full page.
+ * A single readable column with grouped rows.
+ */
+.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  inline-size: 100%;
+  max-inline-size: calc(var(--container-md) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding: var(--space-8) var(--gutter) var(--space-24);
+}
+.list-view__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+}

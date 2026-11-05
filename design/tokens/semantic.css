@@ -1,0 +1,222 @@
+/*
+ * Morrow design tokens: semantic
+ *
+ * What components use. Each token names a ROLE, not a value, so themes
+ * can remap it. Light is the default; dark applies when the OS asks for
+ * it, unless the page forces a theme with data-theme="light|dark" on <html>.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces: page background up to floating layers */
+  --color-bg: var(--gray-25);
+  --color-bg-subtle: var(--gray-50);
+  --color-surface: var(--gray-0);
+  --color-surface-raised: var(--gray-0); /* popovers, dialogs */
+  --color-surface-sunken: var(--gray-100); /* wells, code blocks */
+  --color-surface-inverse: var(--gray-900);
+  --color-overlay: oklch(15% 0.004 75 / 0.45); /* modal scrim */
+
+  /* Text */
+  --color-text: var(--gray-900);
+  --color-text-muted: var(--gray-600);
+  --color-text-subtle: var(--gray-500); /* placeholders, captions: large/non-essential only */
+  --color-text-inverse: var(--gray-25);
+  --color-text-on-accent: var(--gray-0);
+  --color-text-link: var(--blue-600);
+  --color-text-link-hover: var(--blue-700);
+
+  /* Borders */
+  --color-border: var(--gray-200);
+  --color-border-strong: var(--gray-300);
+  --color-border-subtle: var(--gray-100);
+
+  /* Accent (primary actions, selection, focus) */
+  --color-accent: var(--blue-600);
+  --color-accent-hover: var(--blue-700);
+  --color-accent-active: var(--blue-800);
+  --color-accent-subtle: var(--blue-50); /* selected rows, soft buttons */
+  --color-accent-subtle-hover: var(--blue-100);
+  --color-accent-text: var(--blue-700); /* accent-colored text on light bg */
+  --color-focus-ring: var(--blue-500);
+  --color-selection: oklch(87% 0.06 255 / 0.5);
+
+  /* Interactive neutrals (secondary buttons, list hover) */
+  --color-control: var(--gray-0);
+  --color-control-hover: var(--gray-50);
+  --color-control-active: var(--gray-100);
+
+  /* Status: bg (tint), border, solid (icons, fills), text */
+  --color-success-bg: var(--green-100);
+  --color-success-border: var(--green-300);
+  --color-success: var(--green-500);
+  --color-success-text: var(--green-700);
+
+  --color-warning-bg: var(--amber-100);
+  --color-warning-border: var(--amber-300);
+  --color-warning: var(--amber-500);
+  --color-warning-text: var(--amber-700);
+
+  --color-danger-bg: var(--red-100);
+  --color-danger-border: var(--red-300);
+  --color-danger: var(--red-500);
+  --color-danger-text: var(--red-700);
+
+  --color-info-bg: var(--blue-50);
+  --color-info-border: var(--blue-200);
+  --color-info: var(--blue-500);
+  --color-info-text: var(--blue-700);
+
+  /* Elevation. Shadows use a hue-tinted near-black so they sit naturally
+     on the warm neutrals. Two layers each: tight contact + soft ambient. */
+  --shadow-color: 15% 0.01 75;
+  --shadow-xs: 0 1px 2px oklch(var(--shadow-color) / 0.06);
+  --shadow-sm: 0 1px 2px oklch(var(--shadow-color) / 0.06),
+    0 1px 3px oklch(var(--shadow-color) / 0.08);
+  --shadow-md: 0 2px 4px oklch(var(--shadow-color) / 0.05),
+    0 4px 12px oklch(var(--shadow-color) / 0.08);
+  --shadow-lg: 0 4px 8px oklch(var(--shadow-color) / 0.05),
+    0 12px 28px oklch(var(--shadow-color) / 0.12);
+  --shadow-xl: 0 8px 16px oklch(var(--shadow-color) / 0.06),
+    0 24px 56px oklch(var(--shadow-color) / 0.18);
+  --shadow-inset: inset 0 1px 2px oklch(var(--shadow-color) / 0.08);
+  --shadow-focus: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-focus-ring);
+
+  /* Role-level aliases components should prefer */
+  --radius-control: var(--radius-sm);
+  --radius-card: var(--radius-sm); /* kanban cards: dense, 8px */
+  --radius-panel: var(--radius-md);
+  --radius-dialog: var(--radius-lg);
+  --font-body: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-code: var(--font-mono);
+}
+
+/* Dark theme values, defined once and applied by both selectors below. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: var(--gray-950);
+    --color-bg-subtle: var(--gray-900);
+    --color-surface: var(--gray-900);
+    --color-surface-raised: var(--gray-850);
+    --color-surface-sunken: oklch(12.5% 0.004 75);
+    --color-surface-inverse: var(--gray-50);
+    --color-overlay: oklch(0% 0 0 / 0.6);
+
+    --color-text: var(--gray-50);
+    --color-text-muted: var(--gray-400);
+    --color-text-subtle: var(--gray-500);
+    --color-text-inverse: var(--gray-900);
+    --color-text-on-accent: var(--gray-0);
+    --color-text-link: var(--blue-300);
+    --color-text-link-hover: var(--blue-200);
+
+    --color-border: var(--gray-800);
+    --color-border-strong: var(--gray-700);
+    --color-border-subtle: var(--gray-850);
+
+    --color-accent: var(--blue-600);
+    --color-accent-hover: var(--blue-500);
+    --color-accent-active: var(--blue-400);
+    --color-accent-subtle: oklch(30% 0.07 255 / 0.45);
+    --color-accent-subtle-hover: oklch(37% 0.1 255 / 0.55);
+    --color-accent-text: var(--blue-300);
+    --color-focus-ring: var(--blue-400);
+    --color-selection: oklch(51% 0.15 255 / 0.4);
+
+    --color-control: var(--gray-850);
+    --color-control-hover: var(--gray-800);
+    --color-control-active: var(--gray-700);
+
+    --color-success-bg: oklch(28% 0.06 155 / 0.5);
+    --color-success-border: var(--green-700);
+    --color-success: var(--green-500);
+    --color-success-text: var(--green-300);
+    --color-warning-bg: oklch(32% 0.07 60 / 0.5);
+    --color-warning-border: var(--amber-700);
+    --color-warning: var(--amber-500);
+    --color-warning-text: var(--amber-300);
+    --color-danger-bg: oklch(30% 0.09 25 / 0.5);
+    --color-danger-border: var(--red-700);
+    --color-danger: var(--red-500);
+    --color-danger-text: var(--red-300);
+    --color-info-bg: oklch(30% 0.07 255 / 0.45);
+    --color-info-border: var(--blue-700);
+    --color-info: var(--blue-500);
+    --color-info-text: var(--blue-300);
+
+    /* On dark, shadows barely read; lean on surface lightness + borders. */
+    --shadow-color: 0% 0 0;
+    --shadow-xs: 0 1px 2px oklch(var(--shadow-color) / 0.3);
+    --shadow-sm: 0 1px 3px oklch(var(--shadow-color) / 0.4);
+    --shadow-md: 0 4px 12px oklch(var(--shadow-color) / 0.45);
+    --shadow-lg: 0 12px 28px oklch(var(--shadow-color) / 0.5);
+    --shadow-xl: 0 24px 56px oklch(var(--shadow-color) / 0.6);
+    --shadow-inset: inset 0 1px 2px oklch(var(--shadow-color) / 0.4);
+  }
+}
+
+/* Forced dark: keep in sync with the block above. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: var(--gray-950);
+  --color-bg-subtle: var(--gray-900);
+  --color-surface: var(--gray-900);
+  --color-surface-raised: var(--gray-850);
+  --color-surface-sunken: oklch(12.5% 0.004 75);
+  --color-surface-inverse: var(--gray-50);
+  --color-overlay: oklch(0% 0 0 / 0.6);
+
+  --color-text: var(--gray-50);
+  --color-text-muted: var(--gray-400);
+  --color-text-subtle: var(--gray-500);
+  --color-text-inverse: var(--gray-900);
+  --color-text-on-accent: var(--gray-0);
+  --color-text-link: var(--blue-300);
+  --color-text-link-hover: var(--blue-200);
+
+  --color-border: var(--gray-800);
+  --color-border-strong: var(--gray-700);
+  --color-border-subtle: var(--gray-850);
+
+  --color-accent: var(--blue-600);
+  --color-accent-hover: var(--blue-500);
+  --color-accent-active: var(--blue-400);
+  --color-accent-subtle: oklch(30% 0.07 255 / 0.45);
+  --color-accent-subtle-hover: oklch(37% 0.1 255 / 0.55);
+  --color-accent-text: var(--blue-300);
+  --color-focus-ring: var(--blue-400);
+  --color-selection: oklch(51% 0.15 255 / 0.4);
+
+  --color-control: var(--gray-850);
+  --color-control-hover: var(--gray-800);
+  --color-control-active: var(--gray-700);
+
+  --color-success-bg: oklch(28% 0.06 155 / 0.5);
+  --color-success-border: var(--green-700);
+  --color-success: var(--green-500);
+  --color-success-text: var(--green-300);
+  --color-warning-bg: oklch(32% 0.07 60 / 0.5);
+  --color-warning-border: var(--amber-700);
+  --color-warning: var(--amber-500);
+  --color-warning-text: var(--amber-300);
+  --color-danger-bg: oklch(30% 0.09 25 / 0.5);
+  --color-danger-border: var(--red-700);
+  --color-danger: var(--red-500);
+  --color-danger-text: var(--red-300);
+  --color-info-bg: oklch(30% 0.07 255 / 0.45);
+  --color-info-border: var(--blue-700);
+  --color-info: var(--blue-500);
+  --color-info-text: var(--blue-300);
+
+  /* On dark, shadows barely read; lean on surface lightness + borders. */
+  --shadow-color: 0% 0 0;
+  --shadow-xs: 0 1px 2px oklch(var(--shadow-color) / 0.3);
+  --shadow-sm: 0 1px 3px oklch(var(--shadow-color) / 0.4);
+  --shadow-md: 0 4px 12px oklch(var(--shadow-color) / 0.45);
+  --shadow-lg: 0 12px 28px oklch(var(--shadow-color) / 0.5);
+  --shadow-xl: 0 24px 56px oklch(var(--shadow-color) / 0.6);
+  --shadow-inset: inset 0 1px 2px oklch(var(--shadow-color) / 0.4);
+}
