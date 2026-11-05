@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+/* Morrow tokens go in the base layer so the design reset (`* { margin: 0 }`)
+   cannot beat Tailwind's utilities. Imported once, here (ADR-0003). */
+@import "../../design/index.css" layer(base);
+@import "./motion.css";
+
+/* Tailwind scans these for class names: BlockNote's shadcn view ships classes
+   in node_modules. Added with the editor in the app skeleton. */
+/* @source "../../node_modules/@blocknote/shadcn/dist"; */
+
+/*
+ * Dark mode: `dark:` follows prefers-color-scheme, and `data-theme` on <html>
+ * overrides it either way. Same rule as design/tokens/semantic.css.
+ */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:not([data-theme="light"], [data-theme="light"] *)) {
+      @slot;
+    }
+  }
+}
+
+/*
+ * No bridge file (ADR-0003): the design tokens already carry shadcn's names, so
+ * Tailwind just exposes them as classes. Type sizes, fonts, shadows and
+ * container widths come from design/tokens straight away: the primitives share
+ * Tailwind's variable names.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-background-subtle: var(--background-subtle);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-active: var(--secondary-active);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-bg: var(--destructive-bg);
+  --color-destructive-border: var(--destructive-border);
+  --color-destructive-text: var(--destructive-text);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Roles shadcn lacks keep morrow's names. */
+  --color-subtle: var(--text-subtle);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-overlay: var(--overlay);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+  --color-success-text: var(--success-text);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
+  --color-warning-text: var(--warning-text);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+  --color-info-text: var(--info-text);
+
+  /* shadcn's scale, derived from --radius (8px). Copied shadcn code uses it;
+     app code uses the role aliases below. */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* rounded-control / card / panel / dialog: 8 / 8 / 12 / 20. */
+  --radius-control: var(--radius-8);
+  --radius-card: var(--radius-8);
+  --radius-panel: var(--radius-12);
+  --radius-dialog: var(--radius-20);
+}
+
+/* BlockNote reads --bn-colors-* ; point them at the same tokens. */
+.bn-shadcn,
+.bn-container {
+  --bn-colors-editor-text: var(--foreground);
+  --bn-colors-editor-background: var(--card);
+  --bn-colors-menu-text: var(--popover-foreground);
+  --bn-colors-menu-background: var(--popover);
+  --bn-colors-tooltip-text: var(--popover-foreground);
+  --bn-colors-tooltip-background: var(--popover);
+  --bn-colors-hovered-text: var(--accent-foreground);
+  --bn-colors-hovered-background: var(--accent);
+  --bn-colors-selected-text: var(--primary-foreground);
+  --bn-colors-selected-background: var(--primary);
+  --bn-colors-disabled-text: var(--text-subtle);
+  --bn-colors-disabled-background: var(--muted);
+  --bn-colors-shadow: var(--border);
+  --bn-colors-border: var(--border);
+  --bn-colors-side-menu: var(--text-subtle);
+  --bn-font-family: var(--font-body);
+  --bn-border-radius: var(--radius-control);
+}
+
+/* Tailwind v4 borders default to currentColor; use the token instead. */
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--border);
+  }
+}

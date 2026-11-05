@@ -2,3 +2,12 @@
 node_modules/
 .output/
 .DS_Store
+.nitro/
+.tanstack/
+.vp/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example

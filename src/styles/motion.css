@@ -1,0 +1,71 @@
+/*
+ * Motion, rule 7 (docs/design-system.md): quiet, quick, answers the person.
+ *
+ * shadcn ships with tw-animate-css, whose popups zoom in from 95%. This file
+ * retunes it: no zoom, a 6px drop, --duration-panel on --ease-standard. It is
+ * unlayered on purpose so it beats the utilities the copied components use.
+ * Button hover/press timing lives in components/ui/button.tsx.
+ */
+
+/* The components use variants (data-open:animate-in), so match the class
+   substring rather than `.animate-in`. */
+/* Every enter/exit: same length and curve, and never any scale. */
+[class*="animate-in"],
+[class*="animate-out"] {
+  --tw-animation-duration: var(--duration-panel);
+  --tw-ease: var(--ease-standard);
+  --tw-enter-scale: 1;
+  --tw-exit-scale: 1;
+  --tw-enter-rotate: 0;
+  --tw-exit-rotate: 0;
+}
+
+/* Popups (menus, popovers, tooltips) fade and drop 6px from their anchor. */
+[class*="animate-in"][data-side="bottom"] {
+  --tw-enter-translate-y: calc(var(--drop-panel) * -1);
+}
+[class*="animate-in"][data-side="top"] {
+  --tw-enter-translate-y: var(--drop-panel);
+}
+[class*="animate-in"]:is([data-side="left"], [data-side="inline-start"]) {
+  --tw-enter-translate-x: var(--drop-panel);
+}
+[class*="animate-in"]:is([data-side="right"], [data-side="inline-end"]) {
+  --tw-enter-translate-x: calc(var(--drop-panel) * -1);
+}
+[class*="animate-out"][data-side="bottom"] {
+  --tw-exit-translate-y: calc(var(--drop-panel) * -1);
+}
+[class*="animate-out"][data-side="top"] {
+  --tw-exit-translate-y: var(--drop-panel);
+}
+[class*="animate-out"]:is([data-side="left"], [data-side="inline-start"]) {
+  --tw-exit-translate-x: var(--drop-panel);
+}
+[class*="animate-out"]:is([data-side="right"], [data-side="inline-end"]) {
+  --tw-exit-translate-x: calc(var(--drop-panel) * -1);
+}
+
+/* Dialogs have no anchor: they fade and drop 6px too. */
+[data-slot="dialog-content"][class*="animate-in"] {
+  --tw-enter-translate-y: calc(var(--drop-panel) * -1);
+}
+[data-slot="dialog-content"][class*="animate-out"] {
+  --tw-exit-translate-y: calc(var(--drop-panel) * -1);
+}
+
+/* Reduced motion turns all of it off (base.css also shortens durations). */
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-in"],
+  [class*="animate-out"] {
+    animation: none !important;
+  }
+  [data-slot="toast"],
+  [data-slot="toast-content"] {
+    transition: none !important;
+  }
+  [data-slot="button"] {
+    translate: none !important;
+    scale: none !important;
+  }
+}

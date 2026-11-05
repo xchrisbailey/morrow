@@ -4,7 +4,7 @@
  * Not yet supported natively in browsers. Once a build step exists
  * (Lightning CSS or postcss-custom-media), write `@media (--md) { ... }`
  * and these expand at build time. Until then, write the literal rem value
- * and comment the name, e.g. `@media (min-width: 48rem) /* md */`.
+ * and comment the name, e.g. `@media (min-width: 48rem)` with an "md" comment.
  *
  * Mobile first: every query is min-width. Prefer container queries and
  * intrinsic layouts (see layout.css) over viewport breakpoints where a

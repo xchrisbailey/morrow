@@ -19,7 +19,6 @@ HTML
   cat "$3"; echo "<script src=\"./$4\"></script>"; echo "</body>"; echo "</html>"
 }
 page "Morrow Foundations" preview.css body.html preview.js > index.html
-page "Morrow Prototype" app.css app-body.html app.js > app.html
 
 # Standalone single-file copies (all CSS/JS inlined), for sharing.
 if [ -n "$1" ]; then
@@ -30,5 +29,4 @@ if [ -n "$1" ]; then
     cat "$3"; echo '<script>'; cat "$4"; echo '</script>'
   }
   inline "Morrow Foundations" preview.css body.html preview.js > "$1/index.html"
-  { echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'; inline "Morrow Prototype" app.css app-body.html app.js | sed '0,/<\/style>/s//<\/style><\/head><body>/'; echo '</body></html>'; } > "$1/app.html"
 fi
