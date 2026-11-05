@@ -6,8 +6,8 @@
 @import "./motion.css";
 
 /* Tailwind scans these for class names: BlockNote's shadcn view ships classes
-   in node_modules. Added with the editor in the app skeleton. */
-/* @source "../../node_modules/@blocknote/shadcn/dist"; */
+   in node_modules. */
+@source "../../node_modules/@blocknote/shadcn/dist";
 
 /*
  * Dark mode: `dark:` follows prefers-color-scheme, and `data-theme` on <html>

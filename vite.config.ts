@@ -17,13 +17,19 @@ export default defineConfig({
       "docs/adr/**",
       "**/routeTree.gen.ts",
       "drizzle/**",
+      "src/server/auth-schema.ts",
       "design/preview/index.html",
     ],
   },
   lint: {
     ignorePatterns: ["**/routeTree.gen.ts", "drizzle/**"],
+    plugins: ["typescript", "react", "oxc"],
+    rules: {
+      "react/rules-of-hooks": "error",
+      "react/exhaustive-deps": "warn",
+      "vite-plus/prefer-vite-plus-imports": "error",
+    },
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
-    rules: { "vite-plus/prefer-vite-plus-imports": "error" },
     options: { typeAware: true, typeCheck: true },
   },
   run: {
@@ -39,6 +45,8 @@ export default defineConfig({
         tanstackStart(),
         nitro({
           preset: "node-server",
+          // Runs migrations (with a pre-migrate backup) and logs the setup token before listening.
+          plugins: ["./src/server/migrate-plugin.ts"],
           rollupConfig: {
             // React libraries mark files "use client"; that only matters for React
             // Server Components, which we don't use.
