@@ -1,0 +1,42 @@
+import { randomBytes } from "node:crypto";
+import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
+
+/** `$MORROW_DATA_DIR`, default `./data` (the Docker image sets `/data`). */
+export function dataDir(env: NodeJS.ProcessEnv = process.env): string {
+  return resolve(env.MORROW_DATA_DIR || "./data");
+}
+
+/** Migrations folder: `$MIGRATIONS_DIR`, default `./drizzle` relative to cwd. */
+export function migrationsDir(env: NodeJS.ProcessEnv = process.env): string {
+  return resolve(env.MIGRATIONS_DIR || "./drizzle");
+}
+
+/**
+ * The public URL. Required in production (fails fast if unset); outside
+ * production it defaults to the dev server.
+ */
+export function baseUrl(env: NodeJS.ProcessEnv = process.env): string {
+  let url = env.MORROW_URL;
+  if (!url) {
+    if (env.NODE_ENV === "production") {
+      throw new Error(
+        "MORROW_URL is required in production. Set it to the public URL of this Instance, e.g. MORROW_URL=https://morrow.example.com",
+      );
+    }
+    url = "http://localhost:3000";
+  }
+  return url.replace(/\/+$/, "");
+}
+
+/** `$MORROW_SECRET`, or a secret generated once and kept in `$MORROW_DATA_DIR/secret`. */
+export function authSecret(dir: string, env: NodeJS.ProcessEnv = process.env): string {
+  if (env.MORROW_SECRET) return env.MORROW_SECRET;
+  const file = join(dir, "secret");
+  if (existsSync(file)) return readFileSync(file, "utf8").trim();
+  mkdirSync(dir, { recursive: true });
+  const secret = randomBytes(32).toString("base64url");
+  writeFileSync(file, secret, { mode: 0o600 });
+  chmodSync(file, 0o600);
+  return secret;
+}

@@ -1,0 +1,14 @@
+services:
+  morrow:
+    image: ghcr.io/xchrisbailey/morrow:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Required: the public URL of this Instance (https if behind a TLS proxy).
+      MORROW_URL: http://localhost:3000
+    volumes:
+      - morrow-data:/data
+
+volumes:
+  morrow-data:

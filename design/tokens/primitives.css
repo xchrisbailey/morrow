@@ -68,16 +68,15 @@
   --red-700: oklch(47% 0.17 27);
   --red-900: oklch(30% 0.09 25);
 
-
   /* ------------------------------------------------------------------ */
   /* Typography                                                           */
   /* ------------------------------------------------------------------ */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino,
-    Georgia, serif;
-  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
-    "Liberation Mono", monospace;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /*
    * Type scale. Ratio 1.2 (minor third) from a 1rem base for UI sizes.
@@ -153,10 +152,10 @@
   /* ------------------------------------------------------------------ */
   --radius-none: 0;
   /* One family ("soft"): 8 / 12 / 20. Don't mix in other values. */
-  --radius-xs: 0.25rem; /* 4: checkboxes, inline code */
-  --radius-sm: 0.5rem; /* 8: buttons, inputs, kanban cards */
-  --radius-md: 0.75rem; /* 12: panels, popovers, board columns */
-  --radius-lg: 1.25rem; /* 20: dialogs, sheets */
+  --radius-4: 0.25rem; /* 4: checkboxes, inline code */
+  --radius-8: 0.5rem; /* 8: buttons, inputs, kanban cards */
+  --radius-12: 0.75rem; /* 12: panels, popovers, board columns */
+  --radius-20: 1.25rem; /* 20: dialogs, sheets */
   --radius-full: 9999px; /* pills, avatars */
 
   /* ------------------------------------------------------------------ */

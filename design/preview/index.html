@@ -17,7 +17,6 @@
       <p class="pv-lede">The tokens and layouts behind Morrow, a personal hub for solo developers. Primitives hold raw values; semantic tokens name roles and change with the theme.</p>
     </div>
     <div class="cluster">
-      <a class="pv-btn pv-btn--accent" href="app.html" style="text-decoration:none">Open the app prototype</a>
       <button class="pv-btn" id="theme-toggle" type="button">Theme: system</button>
     </div>
   </header>
@@ -36,17 +35,17 @@
   <section id="color" class="stack" style="--gap: var(--space-6)">
     <div class="stack" style="--gap: var(--space-2)">
       <h2 class="pv-h2">Color</h2>
-      <p class="pv-note">Warm gray neutrals (hue 75) carry 90 to 95% of every screen. One calm blue accent (hue 255) marks the primary action, links, selection and focus. All values are OKLCH so steps are even. Components use the semantic roles below, never the ramps.</p>
+      <p class="pv-note">Warm gray neutrals (hue 75) carry 90 to 95% of every screen. One calm blue accent (hue 255) marks the primary action, links, selection and focus. All values are OKLCH so steps are even. Components use the semantic roles below, never the ramps. Role names follow shadcn's (ADR-0003): primary is the brand blue, accent is the hover and selected wash.</p>
     </div>
     <div class="stack" id="ramps" style="--gap: var(--space-4)"></div>
     <h3 style="font-size: var(--text-lg)">Semantic roles</h3>
     <div class="grid-auto" id="roles" style="--min: 15rem; --gap: var(--space-3)"></div>
     <h3 style="font-size: var(--text-lg)">Status</h3>
     <div class="grid-auto" style="--min: 13rem; --gap: var(--space-3)">
-      <div class="pv-status" style="background:var(--color-success-bg);border-color:var(--color-success-border);color:var(--color-success-text)">Synced 2 minutes ago</div>
-      <div class="pv-status" style="background:var(--color-warning-bg);border-color:var(--color-warning-border);color:var(--color-warning-text)">Due tomorrow</div>
-      <div class="pv-status" style="background:var(--color-danger-bg);border-color:var(--color-danger-border);color:var(--color-danger-text)">Couldn't save changes</div>
-      <div class="pv-status" style="background:var(--color-info-bg);border-color:var(--color-info-border);color:var(--color-info-text)">New version available</div>
+      <div class="pv-status" style="background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)">Synced 2 minutes ago</div>
+      <div class="pv-status" style="background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)">Due tomorrow</div>
+      <div class="pv-status" style="background:var(--destructive-bg);border-color:var(--destructive-border);color:var(--destructive-text)">Couldn't save changes</div>
+      <div class="pv-status" style="background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)">New version available</div>
     </div>
     <div class="cluster">
       <button class="pv-btn pv-btn--accent" type="button">Primary action</button>
@@ -80,7 +79,7 @@
   <section id="radius" class="stack" style="--gap: var(--space-6)">
     <div class="stack" style="--gap: var(--space-2)">
       <h2 class="pv-h2">Radius</h2>
-      <p class="pv-note">One soft family: 8px for controls and kanban cards, 12px for panels and board columns, 20px for dialogs. No other values.</p>
+      <p class="pv-note">One soft family: 8px for controls and kanban cards, 12px for panels and board columns, 20px for dialogs. No other values. The primitives are <code>--radius-8/12/20</code>; components use <code>rounded-control/card/panel/dialog</code>.</p>
     </div>
     <div class="grid-auto" id="radius-tiles" style="--min: 7rem; --gap: var(--space-3)"></div>
   </section>
@@ -157,7 +156,7 @@
   <section id="shells" class="stack" style="--gap: var(--space-6)">
     <div class="stack" style="--gap: var(--space-2)">
       <h2 class="pv-h2">Page shells</h2>
-      <p class="pv-note">Shells frame a whole page; app views fill the app shell's main area. The <a href="app.html">prototype</a> shows the app shell, board, editor and todo list working together.</p>
+      <p class="pv-note">Shells frame a whole page; app views fill the app shell's main area.</p>
     </div>
     <div class="grid-auto" style="--min: 15rem; --gap: var(--space-6)">
       <figure class="pv-shell">
@@ -165,11 +164,11 @@
         <figcaption class="pv-shell-cap"><strong>.shell-app</strong><span>Every signed-in screen. Sidebar with the Personal / Work switcher and that space's sections; docked from lg (1024px), a drawer below.</span></figcaption>
       </figure>
       <figure class="pv-shell">
-        <div class="pv-wire" style="place-items:center; grid-template: 1fr / 1fr"><div class="w-acc" style="inline-size:45%; block-size:65%; background: var(--color-surface); box-shadow: var(--shadow-md)"></div></div>
+        <div class="pv-wire" style="place-items:center; grid-template: 1fr / 1fr"><div class="w-acc" style="inline-size:45%; block-size:65%; background: var(--card); box-shadow: var(--shadow-md)"></div></div>
         <figcaption class="pv-shell-cap"><strong>.shell-focus</strong><span>One task, no navigation: sign in, onboarding, checkout. Narrow centered column.</span></figcaption>
       </figure>
       <figure class="pv-shell">
-        <div class="pv-wire" style="grid-template-columns: repeat(3, 1fr) 0.6fr; align-items:start"><div style="block-size:85%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:22px"></div><div class="w-acc" style="block-size:30px"></div><div class="w-acc" style="block-size:18px"></div></div><div style="block-size:65%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:30px"></div><div class="w-acc" style="block-size:22px"></div></div><div style="block-size:45%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:26px"></div></div><div style="block-size:20%; background:transparent; border:1px dashed var(--color-border-strong)"></div></div>
+        <div class="pv-wire" style="grid-template-columns: repeat(3, 1fr) 0.6fr; align-items:start"><div style="block-size:85%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:22px"></div><div class="w-acc" style="block-size:30px"></div><div class="w-acc" style="block-size:18px"></div></div><div style="block-size:65%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:30px"></div><div class="w-acc" style="block-size:22px"></div></div><div style="block-size:45%; display:grid; gap:3px; padding:4px; align-content:start"><div class="w-acc" style="block-size:26px"></div></div><div style="block-size:20%; background:transparent; border:1px dashed var(--input)"></div></div>
         <figcaption class="pv-shell-cap"><strong>.board</strong><span>A section's kanban. Any number of columns scroll sideways inside the board; each column scrolls its own cards.</span></figcaption>
       </figure>
       <figure class="pv-shell">

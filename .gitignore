@@ -1,0 +1,18 @@
+.claude/worktrees/
+node_modules/
+.output/
+.DS_Store
+.nitro/
+.tanstack/
+.vp/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+
+# local Instance data
+data/
+test-results/
+playwright-report/

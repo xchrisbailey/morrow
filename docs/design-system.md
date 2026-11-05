@@ -10,31 +10,37 @@ accent marks what matters, and motion is quick and only answers the person.
 
 ## Where things live
 
-| File | What it holds |
-| --- | --- |
-| `design/index.css` | Entry point. Import once, globally. |
-| `design/tokens/primitives.css` | Raw values: color ramps, type scale, spacing, radius, motion, z-index, breakpoints. |
-| `design/tokens/semantic.css` | Role tokens (`--color-text`, `--color-accent`, `--shadow-md`...). Light and dark themes. |
-| `design/tokens/breakpoints.css` | `@custom-media` names for when a CSS build step exists. Not imported yet. |
-| `design/base.css` | Reset and element defaults wired to tokens. |
-| `design/layout.css` | Layout tokens, primitives, containers, page shells and app views. |
-| `design/preview/` | Foundations page and an interactive app prototype. Open `index.html` in a browser. Rebuild with `sh design/preview/build.sh`. |
+| File                            | What it holds                                                                                                                                                                   |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `design/index.css`              | Entry point. Import once, globally.                                                                                                                                             |
+| `design/tokens/primitives.css`  | Raw values: color ramps, type scale, spacing, radius, motion, z-index, breakpoints.                                                                                             |
+| `design/tokens/semantic.css`    | Role tokens, named as shadcn names them (`--foreground`, `--primary`, `--border`...) plus morrow's own (`--text-subtle`, `--success`, `--shadow-md`...). Light and dark themes. |
+| `design/tokens/breakpoints.css` | `@custom-media` names for when a CSS build step exists. Not imported yet.                                                                                                       |
+| `design/base.css`               | Reset and element defaults wired to tokens.                                                                                                                                     |
+| `design/layout.css`             | Layout tokens, primitives, containers, page shells and app views.                                                                                                               |
+| `design/preview/`               | Foundations page. Open `index.html` in a browser. Rebuild with `sh design/preview/build.sh`.                                                                                    |
+| `src/styles/app.css`            | The app's style entry: Tailwind, `design/index.css` in `layer(base)`, and the `@theme inline` map from tokens to classes.                                                       |
+| `src/styles/motion.css`         | Retunes `tw-animate-css` and shadcn's transitions to rule 7.                                                                                                                    |
 
 ## Rules
 
-1. **Components use semantic tokens, never primitives.** Use `--color-accent`, not
+1. **Components use semantic tokens, never primitives.** Use `--primary`, not
    `--blue-600`. A theme only remaps semantic tokens.
-2. **One accent.** Blue, hue 255. It marks the primary action, links, selection,
+2. **One accent.** Blue, hue 255, named `--primary` (shadcn's `--accent` is only
+   the hover and selected wash). It marks the primary action, links, selection,
    focus and progress. Keep it under a few percent of any screen. No violet or
    lavender anywhere (hue 270 to 330).
 3. **Text contrast.** Body text on its background is 7:1 or more. Muted text is
-   4.5:1 or more and is for labels, dates and meta. `--color-text-subtle` is for
+   4.5:1 or more and is for labels, dates and meta. `--text-subtle` is for
    placeholders and counts only.
 4. **Nothing under 13px.** Labels are sentence case at 13px medium. No tracked
    capitals.
 5. **One radius family.** 8px controls and kanban cards, 12px panels and board
-   columns, 20px dialogs. Use the role aliases (`--radius-control`, `--radius-card`,
-   `--radius-panel`, `--radius-dialog`).
+   columns, 20px dialogs. The primitives are `--radius-8/12/20`. Use the role
+   aliases (`--radius-control`, `--radius-card`, `--radius-panel`,
+   `--radius-dialog`), which Tailwind exposes as `rounded-control`, `rounded-card`,
+   `rounded-panel` and `rounded-dialog`. shadcn's own `rounded-md`, `rounded-lg`
+   derive from `--radius: 8px`.
 6. **Spacing on a 4px grid.** `--space-N` is N x 4px. Lay out siblings with `gap`
    from a layout primitive, not margins.
 7. **Motion is quiet and answers the person.** Hover in 140ms, out 200ms, press
@@ -77,22 +83,41 @@ Three levels, smallest first:
 
 Mobile first, min-width only. Prefer intrinsic layouts and container queries.
 
-| Name | Min width | What changes |
-| --- | --- | --- |
-| sm | 640px | Board columns stop snapping full width. |
-| md | 768px | `.grid-12` spans apply. |
-| lg | 1024px | Sidebar docks. |
-| xl | 1280px | Card inspector docks beside the board. |
-| 2xl | 1536px | Room for `--container-2xl`. |
+| Name | Min width | What changes                            |
+| ---- | --------- | --------------------------------------- |
+| sm   | 640px     | Board columns stop snapping full width. |
+| md   | 768px     | `.grid-12` spans apply.                 |
+| lg   | 1024px    | Sidebar docks.                          |
+| xl   | 1280px    | Card inspector docks beside the board.  |
+| 2xl  | 1536px    | Room for `--container-2xl`.             |
 
-## When the stack is chosen
+## Token names (ADR-0003)
 
-The tokens are plain CSS custom properties so they work with any stack. The
-likely stack is TanStack Start. With Tailwind v4, map the semantic tokens in an
-`@theme` block (for example `--color-accent: var(--color-accent)`) so utilities
-read from this system. Build components (button, card, checkbox, switch,
-menu) against the semantic tokens; the prototype's `app.css` shows the
-intended look and motion for each.
+The semantic layer uses shadcn's names where a role overlaps, so shadcn and
+BlockNote components read it without a bridge file. `@theme inline` in
+`src/styles/app.css` maps each variable to Tailwind classes (`bg-background`,
+`text-muted-foreground`, `border-input`, ...).
+
+| Role                        | Token                                                                                                                                                                                                |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Page, subtle page           | `--background`, `--background-subtle`                                                                                                                                                                |
+| Cards, panels               | `--card` / `--card-foreground`                                                                                                                                                                       |
+| Popovers, dialogs           | `--popover` / `--popover-foreground`                                                                                                                                                                 |
+| Wells, code blocks          | `--muted` / `--muted-foreground`                                                                                                                                                                     |
+| Primary action (brand blue) | `--primary` / `--primary-foreground`, `--primary-hover`, `--primary-active`                                                                                                                          |
+| Hover and selected wash     | `--accent` / `--accent-foreground`, `--accent-hover`                                                                                                                                                 |
+| Neutral controls            | `--secondary` / `--secondary-foreground`, `--secondary-hover`, `--secondary-active`                                                                                                                  |
+| Danger                      | `--destructive` / `--destructive-foreground`, `--destructive-bg/-border/-text`                                                                                                                       |
+| Borders                     | `--border`, `--input` (field and strong border), `--border-subtle`                                                                                                                                   |
+| Focus                       | `--ring`                                                                                                                                                                                             |
+| Morrow only                 | `--text-subtle`, `--text-inverse`, `--surface-inverse`, `--overlay`, `--link`, `--link-hover`, `--selection`, `--success`, `--warning`, `--info` (each with `-bg`, `-border`, `-text`), `--shadow-*` |
+
+Dark mode: Tailwind's `dark:` variant follows `prefers-color-scheme` and is
+overridden either way by `data-theme="light|dark"` on `<html>`. BlockNote's
+`--bn-colors-*` variables are mapped onto the same tokens in `src/styles/app.css`.
+
+Build components against the semantic tokens. shadcn components are copied into
+`src/components/ui/` and edited in place when they break a rule here.
 
 ## Origins
 

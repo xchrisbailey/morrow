@@ -4,7 +4,7 @@ Date: 2026-11-05
 
 ## Status
 
-Accepted
+Accepted. Amended by ADR-0003 (semantic names follow shadcn; radius primitives renamed).
 
 ## Context
 
